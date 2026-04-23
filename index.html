@@ -4,18 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Joshua Severin — Operator at the intersection of energy markets and product</title>
-<meta name="description" content="UC Berkeley Economics '26. Modeling battery-storage economics and VPP integration strategy at Intertrust Technologies. I build systems that turn data into decisions." />
-
-<!-- Open Graph -->
-<meta property="og:title" content="Joshua Severin — Portfolio" />
-<meta property="og:description" content="UC Berkeley Economics '26. Energy markets × product. I build systems that turn data into decisions." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://joshuaseverinportfolio.surge.sh" />
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Joshua Severin — Portfolio" />
-<meta name="twitter:description" content="UC Berkeley Economics '26. Energy markets × product." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,10 +20,10 @@
   --paper: #f4efe5;
   --paper-2: #ebe5d8;
   --card: #faf6ec;
-  --accent: #1f3a2e;
+  --accent: #1f3a2e;       /* deep forest */
   --accent-2: #2f6f4e;
   --accent-soft: #d9e6db;
-  --signal: #c2410c;
+  --signal: #c2410c;       /* warm oxblood-amber accent for data */
   --radius: 2px;
   --density: 1;
 }
@@ -90,8 +78,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: var(--muted);
 }
 
+/* selection */
 ::selection { background: var(--accent); color: var(--paper); }
 
+/* subtle page grain */
 body::before {
   content: "";
   position: fixed; inset: 0;
@@ -107,10 +97,12 @@ html[data-theme="dark"] body::before {
   mix-blend-mode: screen;
 }
 
+/* reveal-on-scroll */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
 .reveal.is-in { opacity: 1; transform: none; }
 html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 
+/* dividers */
 .rule {
   display:flex; align-items:baseline; gap: 16px;
   padding: 24px 0 16px;
@@ -119,6 +111,7 @@ html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 .rule .num { color: var(--muted-2); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; }
 .rule .tag { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .14em; }
 
+/* buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 12px 18px;
@@ -132,6 +125,7 @@ html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 .btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn.ghost:hover { background: var(--ink); color: var(--paper); }
 
+/* cursor dot */
 .cursor-dot {
   position: fixed; z-index: 60;
   width: 8px; height: 8px; border-radius: 50%;
@@ -145,18 +139,109 @@ html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 html[data-theme="dark"] .cursor-dot { mix-blend-mode: screen; }
 @media (hover: none) { .cursor-dot { display: none; } }
 
-/* Theme toggle button */
-.theme-toggle {
-  width: 32px; height: 32px;
+/* Tweaks panel */
+.tweaks-panel {
+  position: fixed; right: 20px; bottom: 20px; z-index: 80;
+  width: 300px;
+  background: var(--card);
   border: 1px solid var(--line-2);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: border-color .2s ease, background .2s ease;
-  background: transparent;
-  color: var(--muted);
+  padding: 18px 18px 16px;
+  font-size: 12px;
+  transform: translateY(20px); opacity: 0; pointer-events: none;
+  transition: transform .3s ease, opacity .3s ease;
+  box-shadow: 0 24px 48px -20px rgba(0,0,0,0.18);
 }
-.theme-toggle:hover { border-color: var(--ink); color: var(--ink); }
+.tweaks-panel.open { transform: none; opacity: 1; pointer-events: auto; }
+.tweaks-panel h4 {
+  margin: 0 0 14px; font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+  display:flex; justify-content: space-between; align-items:center;
+}
+.tweak-row { padding: 8px 0; border-top: 1px dashed var(--line); }
+.tweak-row:first-of-type { border-top: 0; }
+.tweak-row label { display:block; color: var(--muted); margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.swatches { display:flex; gap:8px; }
+.swatch { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-2); cursor: pointer; }
+.swatch.on { outline: 1px solid var(--ink); outline-offset: 2px; }
+.seg { display:flex; }
+.seg button { flex: 1; padding: 6px 8px; border: 1px solid var(--line-2); font-size: 11px; background: transparent; color: var(--ink); }
+.seg button.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.seg button + button { border-left: 0; }
+
+/* ===== Mobile responsive fixes ===== */
+@media (max-width: 780px) {
+  .container { padding: 0 20px; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { overflow-x: hidden; }
+
+  /* kill any inline hard-coded widths that overflow viewport */
+  .container [style*="width: 1100"],
+  .container [style*="width: 1000"],
+  .container [style*="width: 840"],
+  .container [style*="width: 800"],
+  .container [style*="width: 700"],
+  .container [style*="width: 600"],
+  .container [style*="width: 480"],
+  .container [style*="maxWidth: 1100"],
+  .container [style*="maxWidth: 1000"],
+  .container [style*="max-width: 1100"],
+  .container [style*="max-width: 1000"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* hero */
+  .hero-h1 { font-size: 28px !important; line-height: 1.1 !important; }
+  .hero-sub { font-size: 14px !important; }
+
+  /* about subtitle */
+  .about-sub { font-size: 18px !important; }
+
+  /* nav — collapse to just logo + status on mobile */
+  nav .nav-links { display: none !important; }
+
+  /* section headers: stack title + lede */
+  .sh-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* section padding tighter */
+  section { padding-left: 0; padding-right: 0; }
+
+  /* experience rows collapse */
+  .exp-row { grid-template-columns: 1fr !important; gap: 18px !important; }
+
+  /* about two-col to one */
+  .about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* writing + principles + contact: single column */
+  #writing .reveal, #thinking .reveal, .contact-grid { grid-template-columns: 1fr !important; }
+  .contact-grid > div:last-child { text-align: left !important; }
+
+  /* projects: collapse the mid client column */
+  .project-row { grid-template-columns: 30px 1fr 28px !important; }
+  .project-row > .project-client { display: none !important; }
+  .detail-grid { grid-template-columns: 1fr !important; }
+
+  /* skills/toolkit — single column */
+  .toolkit-grid { grid-template-columns: 1fr !important; }
+  .toolkit-grid > div { border-left: 0 !important; }
+  .toolkit-grid > div + div { border-top: 1px solid var(--line) !important; }
+
+  /* zonal viz */
+  .zonal-grid { grid-template-columns: 1fr !important; }
+
+  /* hide custom cursor on touch */
+  .cursor-dot { display: none !important; }
+
+  /* tweaks panel fit */
+  .tweaks-panel { width: calc(100vw - 24px) !important; right: 12px !important; left: 12px !important; max-width: none !important; }
+}
+
+@media (max-width: 420px) {
+  .container { padding: 0 16px; }
+  .hero-h1 { font-size: 22px !important; }
+  .about-sub { font-size: 16px !important; }
+}
+
 </style>
 </head>
 <body>
@@ -172,6 +257,7 @@ html[data-theme="dark"] .cursor-dot { mix-blend-mode: screen; }
 <script type="text/babel" src="components/viz.jsx"></script>
 <script type="text/babel" src="components/sections.jsx"></script>
 <script type="text/babel" src="components/projects.jsx"></script>
+<script type="text/babel" src="components/tweaks.jsx"></script>
 <script type="text/babel" src="components/app.jsx"></script>
 
 </body>
