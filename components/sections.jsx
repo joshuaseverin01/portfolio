@@ -2,7 +2,7 @@
 // Sections — hero, about, experience, skills, principles, contact
 // ============================================================
 
-function Nav({ ThemeToggle }) {
+function Nav() {
   const [scrolled, setScrolled] = React.useState(false);
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -33,7 +33,6 @@ function Nav({ ThemeToggle }) {
             <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--accent-2)", marginRight: 6, animation: "pulse 2.2s ease infinite" }} />
             Available Summer '26
           </span>
-          {ThemeToggle && <ThemeToggle />}
         </div>
       </div>
     </nav>
@@ -60,9 +59,9 @@ function Hero() {
     <section id="top" style={{ paddingTop: 140, paddingBottom: 40, position: "relative" }}>
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 20, maxWidth: 1100 }}>
-          <h1 className="serif reveal" style={{
-            fontSize: 50,
-            lineHeight: 0.96,
+          <h1 className="serif reveal hero-h1" style={{
+            fontSize: "clamp(28px, 6.5vw, 50px)",
+            lineHeight: 1.05,
             margin: "10px 0 0",
             letterSpacing: "-0.02em",
             fontWeight: 400,
@@ -73,8 +72,8 @@ function Hero() {
             JOSHUA SEVERIN — PORTFOLIO  — 2026
           </h1>
 
-          <p className="reveal" style={{
-            marginTop: 28, width: 1100, fontSize: 17, color: "var(--ink-2)", lineHeight: 1.55, textAlign: "center",
+          <p className="reveal hero-sub" style={{
+            marginTop: 28, width: "100%", maxWidth: 1100, fontSize: "clamp(14px, 2.2vw, 17px)", color: "var(--ink-2)", lineHeight: 1.55, textAlign: "center", marginLeft: "auto", marginRight: "auto",
           }}>
             UC Berkeley Economics '26. Currently modeling battery-storage economics and VPP integration strategy for utilities at Intertrust Technologies. Previously built a youth-sports operating system from scratch. I build systems that turn data into decisions.
           </p>
@@ -128,7 +127,7 @@ function About() {
   return (
     <section id="about" style={{ padding: "40px 0 80px" }}>
       <div className="container">
-        <SectionHeader num="I" tag="The Story" titleStyle={{ width: 840, fontSize: 60 }} title={<>From a factory floor in Germany to Berkeley<div style={{ fontSize: 30, color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>} />
+        <SectionHeader num="I" tag="The Story" titleStyle={{ width: "100%", maxWidth: 840, fontSize: "clamp(32px, 5.5vw, 60px)" }} title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>} />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }} className="about-grid reveal">
           <div style={{ fontSize: 17, lineHeight: 1.7, color: "var(--ink-2)" }}>
@@ -292,7 +291,7 @@ function Skills() {
   return (
     <section id="skills" style={{ padding: "80px 0" }}>
       <div className="container">
-        <SectionHeader num="V" tag="Skills" title={<span style={{ width: 1000, display: "inline-block" }}>The skill stack — <em style={{ color: "var(--accent)" }}>analytical</em>, <em style={{ color: "var(--accent)" }}>product</em>, <em style={{ color: "var(--accent)" }}>strategic</em>, <em style={{ color: "var(--accent)" }}>AI</em>.</span>} />
+        <SectionHeader num="V" tag="Skills" title={<span style={{ width: "100%", maxWidth: 1000, display: "inline-block" }}>The skill stack — <em style={{ color: "var(--accent)" }}>analytical</em>, <em style={{ color: "var(--accent)" }}>product</em>, <em style={{ color: "var(--accent)" }}>strategic</em>, <em style={{ color: "var(--accent)" }}>AI</em>.</span>} />
 
         <div className="reveal toolkit-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, border: "1px solid var(--line)" }}>
           {window.SKILLS.map((s, i) => (

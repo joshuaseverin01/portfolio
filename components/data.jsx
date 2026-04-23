@@ -54,7 +54,7 @@ const EXPERIENCE = [
     role: "Industrial Logistics & Production",
     place: "Saarland, Germany",
     owned: "Shift-based production and logistics for Tier-1 automotive OEMs.",
-    built: "Component flow for BMW, Mercedes-Benz, Audi lines under lean manufacturing frameworks.",
+    built: "Component flow for BMW, Mercedes-Benz, and Audi engines under lean manufacturing frameworks.",
     changed: "Maintained 100% quality integrity across rigorous industrial timelines.",
     tags: ["Industrial Ops", "Lean Manufacturing"],
   },
@@ -146,7 +146,7 @@ const PROJECTS = [
     id: "pitchpoint-proj",
     idx: "05",
     title: "PitchPoint — Club Operating System",
-    client: "Berkeley United FC · UC Berkeley pilot · 3 teams, 160+ profiles",
+    client: "UC Berkeley pilot · 3 teams, 160+ profiles",
     tagline: "Replacing five tools with one role-aware PWA.",
     problem:
       "Competitive youth soccer clubs run on five disconnected tools — GroupMe, Google Sheets, TeamSnap, paper feedback, verbal coordination. Data silos mean coaches can't see cross-team attendance, parents can't find games, and club admins have no operational view.",
