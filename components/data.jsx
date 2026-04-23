@@ -147,6 +147,9 @@ const PROJECTS = [
     idx: "05",
     title: "PitchPoint — Club Operating System",
     client: "UC Berkeley pilot · 3 teams, 160+ profiles",
+    demoNote: "Try the PitchPoint demo here.",
+    demoLabel: "Launch Demo ↗",
+    demoHref: "https://pitchpointsoccer.vercel.app/demo",
     tagline: "Replacing five tools with one role-aware PWA.",
     problem:
       "Competitive youth soccer clubs run on five disconnected tools — GroupMe, Google Sheets, TeamSnap, paper feedback, verbal coordination. Data silos mean coaches can't see cross-team attendance, parents can't find games, and club admins have no operational view.",

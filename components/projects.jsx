@@ -65,6 +65,60 @@ function ProjectRow({ p, i, open, onToggle }) {
         </div>
       </button>
 
+      {p.demoHref && (
+        <div style={{ padding: "0 0 26px" }}>
+          <div
+            className="project-demo-row"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "60px 1fr auto 40px",
+              gap: 24,
+              alignItems: "start",
+            }}
+          >
+            <div
+              className="project-demo-card"
+              style={{
+                gridColumn: "3 / 4",
+                maxWidth: 320,
+                justifySelf: "end",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                gap: 12,
+              }}
+            >
+              <div
+                className="mono"
+                style={{
+                  fontSize: 11,
+                  color: "var(--muted)",
+                  letterSpacing: ".04em",
+                  lineHeight: 1.7,
+                  textAlign: "right",
+                }}
+              >
+                {p.demoNote}
+              </div>
+              <a
+                href={p.demoHref}
+                target="_blank"
+                rel="noreferrer"
+                className="btn ghost mono"
+                style={{
+                  padding: "10px 14px",
+                  fontSize: 11,
+                  letterSpacing: ".12em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {p.demoLabel}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div
         ref={ref}
         style={{
@@ -124,6 +178,19 @@ function ProjectDetail({ p }) {
           .detail-grid { grid-template-columns: 1fr !important; }
           .project-row { grid-template-columns: 30px 1fr 28px !important; }
           .project-row > *:nth-child(3) { display: none; }
+          .project-demo-row {
+            grid-template-columns: 30px 1fr 28px !important;
+            gap: 16px !important;
+          }
+          .project-demo-card {
+            grid-column: 2 / 3 !important;
+            justify-self: start !important;
+            align-items: flex-start !important;
+            max-width: none !important;
+          }
+          .project-demo-card > div {
+            text-align: left !important;
+          }
         }
       `}</style>
     </div>
