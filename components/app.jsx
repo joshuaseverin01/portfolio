@@ -1,3 +1,9 @@
+import React from "react";
+import ProfileIntroModal from "./profile-intro.jsx";
+import Projects from "./projects.jsx";
+import { About, Contact, Experience, Hero, Nav, Skills, Writing } from "./sections.jsx";
+import TweaksPanel from "./tweaks.jsx";
+
 // ============================================================
 // App — composition root
 // ============================================================
@@ -6,49 +12,95 @@ const PROFILE_CARD_STORAGE_KEY = "hasSeenProfileCard";
 
 function useReveal() {
   React.useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+    const elements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          observer.unobserve(entry.target);
+        }
+      });
     }, { threshold: 0.08, rootMargin: "0px 0px -60px 0px" });
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
   }, []);
 }
 
 function Cursor() {
   const ref = React.useRef(null);
+
   React.useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(hover: none)").matches) return;
-    let x = 0, y = 0, tx = 0, ty = 0, raf = 0, visible = false;
-    const onMove = (e) => {
-      tx = e.clientX; ty = e.clientY;
-      if (!visible) { el.style.opacity = 0.9; visible = true; }
+    const element = ref.current;
+    if (!element) return undefined;
+    if (window.matchMedia("(hover: none)").matches) return undefined;
+
+    let x = 0;
+    let y = 0;
+    let tx = 0;
+    let ty = 0;
+    let raf = 0;
+    let visible = false;
+
+    const onMove = (event) => {
+      tx = event.clientX;
+      ty = event.clientY;
+      if (!visible) {
+        element.style.opacity = 0.9;
+        visible = true;
+      }
     };
-    const onLeave = () => { el.style.opacity = 0; visible = false; };
-    const onEnterLink = () => { el.style.width = "28px"; el.style.height = "28px"; };
-    const onLeaveLink = () => { el.style.width = "8px"; el.style.height = "8px"; };
+
+    const onLeave = () => {
+      element.style.opacity = 0;
+      visible = false;
+    };
+
+    const onEnterLink = () => {
+      element.style.width = "28px";
+      element.style.height = "28px";
+    };
+
+    const onLeaveLink = () => {
+      element.style.width = "8px";
+      element.style.height = "8px";
+    };
+
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
-    document.querySelectorAll("a, button").forEach(a => {
-      a.addEventListener("mouseenter", onEnterLink);
-      a.addEventListener("mouseleave", onLeaveLink);
+
+    const interactive = document.querySelectorAll("a, button");
+    interactive.forEach((node) => {
+      node.addEventListener("mouseenter", onEnterLink);
+      node.addEventListener("mouseleave", onLeaveLink);
     });
+
     const tick = () => {
       x += (tx - x) * 0.2;
       y += (ty - y) * 0.2;
-      el.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
+      element.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
       raf = requestAnimationFrame(tick);
     };
+
     raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); document.removeEventListener("mouseleave", onLeave); };
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      interactive.forEach((node) => {
+        node.removeEventListener("mouseenter", onEnterLink);
+        node.removeEventListener("mouseleave", onLeaveLink);
+      });
+    };
   }, []);
+
   return <div className="cursor-dot" ref={ref} />;
 }
 
-function App() {
+export default function App() {
   useReveal();
+
   const [showProfileIntro, setShowProfileIntro] = React.useState(() => {
     try {
       return window.localStorage.getItem(PROFILE_CARD_STORAGE_KEY) !== "true";
@@ -57,15 +109,15 @@ function App() {
     }
   });
 
-  // Re-run reveal observer after projects toggle, in case newly-revealed items
   React.useEffect(() => {
-    const t = setInterval(() => {
-      document.querySelectorAll(".reveal:not(.is-in)").forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 40) el.classList.add("is-in");
+    const timer = setInterval(() => {
+      document.querySelectorAll(".reveal:not(.is-in)").forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 40) element.classList.add("is-in");
       });
     }, 500);
-    return () => clearInterval(t);
+
+    return () => clearInterval(timer);
   }, []);
 
   React.useEffect(() => {
@@ -113,6 +165,3 @@ function App() {
     </>
   );
 }
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);

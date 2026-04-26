@@ -2,7 +2,7 @@
 // Data — content source of truth
 // ============================================================
 
-const PROFILE = {
+export const PROFILE = {
   name: "Joshua Severin",
   tagline: "Operator at the intersection of energy markets and product.",
   sub: "UC Berkeley Economics '26. Currently modeling battery-storage economics and VPP integration strategy for utilities at Intertrust Technologies. Previously built a youth-sports operating system from zero. I build systems that turn data into decisions.",
@@ -12,11 +12,11 @@ const PROFILE = {
   origin: "Saarland, Germany",
   email: "joshuaseverin@berkeley.edu",
   linkedin: "linkedin.com/in/joshua-severin",
-  headshot: "/public/images/JS_headshot.png",
+  headshot: "/images/JS_headshot.png",
   phone: "669-290-8409",
 };
 
-const EXPERIENCE = [
+export const EXPERIENCE = [
   {
     id: "intertrust",
     period: "Jun 2025 — Present",
@@ -63,7 +63,7 @@ const EXPERIENCE = [
   },
 ];
 
-const PROJECTS = [
+export const PROJECTS = [
   {
     id: "rwe",
     idx: "01",
@@ -170,7 +170,7 @@ const PROJECTS = [
   },
 ];
 
-const SKILLS = [
+export const SKILLS = [
   {
     group: "Analytical",
     blurb: "\n",
@@ -221,7 +221,7 @@ const SKILLS = [
   },
 ];
 
-const PRINCIPLES = [
+export const PRINCIPLES = [
   {
     n: "01",
     title: "Good models don't predict perfectly. They reduce uncertainty enough to change the decision.",
@@ -254,13 +254,7 @@ const PRINCIPLES = [
   },
 ];
 
-window.PROFILE = PROFILE;
-window.EXPERIENCE = EXPERIENCE;
-window.PROJECTS = PROJECTS;
-window.SKILLS = SKILLS;
-window.PRINCIPLES = PRINCIPLES;
-
-const WRITING = [
+export const WRITING = [
   {
     title: "Are VPPs Leaving Money on the Table? Capturing the Full Value Stack",
     pub: "Intertrust · Blog",
@@ -280,5 +274,3 @@ const WRITING = [
     tags: ["ERCOT", "BESS Modeling", "Spatial Analysis"],
   },
 ];
-
-window.WRITING = WRITING;

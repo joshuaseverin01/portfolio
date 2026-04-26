@@ -1,9 +1,12 @@
+import React from "react";
+import { EXPERIENCE, PRINCIPLES, PROFILE, SKILLS, WRITING } from "./data.jsx";
+
 // ============================================================
 // Sections — hero, about, experience, skills, principles, contact
 // ============================================================
 
 function HeadshotFrame({ width, height, radius, alt, frameStyle, imageStyle }) {
-  const src = (window.PROFILE && window.PROFILE.headshot) || "/public/images/JS_headshot.png";
+  const src = PROFILE.headshot || "/images/JS_headshot.png";
 
   return (
     <span
@@ -38,22 +41,30 @@ function HeadshotFrame({ width, height, radius, alt, frameStyle, imageStyle }) {
   );
 }
 
-function Nav() {
+export function Nav() {
   const [scrolled, setScrolled] = React.useState(false);
+
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
   return (
-    <nav style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 40,
-      padding: scrolled ? "12px 0" : "24px 0",
-      background: scrolled ? "color-mix(in oklab, var(--paper) 90%, transparent)" : "transparent",
-      backdropFilter: scrolled ? "blur(16px)" : "none",
-      borderBottom: scrolled ? "1px solid color-mix(in oklab, var(--line) 82%, transparent)" : "1px solid transparent",
-      transition: "all .35s ease",
-    }}>
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 40,
+        padding: scrolled ? "12px 0" : "24px 0",
+        background: scrolled ? "color-mix(in oklab, var(--paper) 90%, transparent)" : "transparent",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        borderBottom: scrolled ? "1px solid color-mix(in oklab, var(--line) 82%, transparent)" : "1px solid transparent",
+        transition: "all .35s ease",
+      }}
+    >
       <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <a href="#top" className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <HeadshotFrame
@@ -69,8 +80,10 @@ function Nav() {
           <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
         </a>
         <div style={{ display: "flex", gap: 30 }} className="nav-links">
-          {[["About","about"],["Work","work"],["Projects","projects"],["Writing","writing"],["Skills","skills"],["Contact","contact"]].map(([l,h])=>(
-            <a key={h} href={`#${h}`} className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>{l}</a>
+          {[["About", "about"], ["Work", "work"], ["Projects", "projects"], ["Writing", "writing"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, hash]) => (
+            <a key={hash} href={`#${hash}`} className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+              {label}
+            </a>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -94,7 +107,7 @@ function Nav() {
   );
 }
 
-function Hero() {
+export function Hero() {
   return (
     <section id="top" style={{ paddingTop: 176, paddingBottom: 108, position: "relative" }}>
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
@@ -129,32 +142,38 @@ function Hero() {
               Joshua Severin
             </div>
 
-            <h1 className="serif hero-h1" style={{
-              fontSize: "clamp(52px, 8.4vw, 104px)",
-              lineHeight: 0.9,
-              margin: "6px 0 0",
-              letterSpacing: "-0.04em",
-              fontWeight: 400,
-              textWrap: "balance",
-              color: "var(--ink)",
-              textAlign: "left",
-              maxWidth: 760,
-            }}>
+            <h1
+              className="serif hero-h1"
+              style={{
+                fontSize: "clamp(52px, 8.4vw, 104px)",
+                lineHeight: 0.9,
+                margin: "6px 0 0",
+                letterSpacing: "-0.04em",
+                fontWeight: 400,
+                textWrap: "balance",
+                color: "var(--ink)",
+                textAlign: "left",
+                maxWidth: 760,
+              }}
+            >
               I build models behind real decisions.
             </h1>
             <div style={{ width: 112, height: 2, background: "color-mix(in oklab, var(--accent) 58%, var(--line))" }} />
           </div>
 
           <div className="hero-copy-col" style={{ display: "grid", gap: 24, alignContent: "start", paddingTop: "min(9vw, 108px)" }}>
-            <p className="hero-sub" style={{
-              margin: 0,
-              width: "100%",
-              maxWidth: 360,
-              fontSize: "clamp(16px, 1.7vw, 18px)",
-              color: "var(--ink-2)",
-              lineHeight: 1.8,
-              textAlign: "left",
-            }}>
+            <p
+              className="hero-sub"
+              style={{
+                margin: 0,
+                width: "100%",
+                maxWidth: 360,
+                fontSize: "clamp(16px, 1.7vw, 18px)",
+                color: "var(--ink-2)",
+                lineHeight: 1.8,
+                textAlign: "left",
+              }}
+            >
               I’m exploring full-time roles in business development and product, starting Summer 2026. Over the last year, I’ve modeled battery storage economics and VPP integration strategy for utilities at Intertrust Technologies. In parallel, I built a youth sports operating system from scratch.
             </p>
 
@@ -168,7 +187,6 @@ function Hero() {
             </div>
           </div>
         </div>
-
       </div>
       <style>{`
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.4); } }
@@ -221,15 +239,15 @@ function Hero() {
   );
 }
 
-function Arrow() {
+export function Arrow() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
     </svg>
   );
 }
 
-function SectionHeader({ num, tag, title, lede, titleStyle, ledeStyle, numStyle, tagStyle, ruleStyle, wrapStyle, gridStyle }) {
+export function SectionHeader({ num, tag, title, lede, titleStyle, ledeStyle, numStyle, tagStyle, ruleStyle, wrapStyle, gridStyle }) {
   return (
     <div style={{ marginBottom: 56, ...(wrapStyle || {}) }}>
       <div className="rule" style={ruleStyle}>
@@ -237,11 +255,20 @@ function SectionHeader({ num, tag, title, lede, titleStyle, ledeStyle, numStyle,
         <span className="tag" style={tagStyle}>{tag}</span>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "end", ...(gridStyle || {}) }} className="sh-grid">
-        <h2 className="serif" style={{
-          fontSize: "clamp(40px, 4.8vw, 72px)",
-          lineHeight: 0.94, margin: 0, fontWeight: 400, letterSpacing: "-0.03em", textWrap: "balance",
-          ...(titleStyle || {}),
-        }}>{title}</h2>
+        <h2
+          className="serif"
+          style={{
+            fontSize: "clamp(40px, 4.8vw, 72px)",
+            lineHeight: 0.94,
+            margin: 0,
+            fontWeight: 400,
+            letterSpacing: "-0.03em",
+            textWrap: "balance",
+            ...(titleStyle || {}),
+          }}
+        >
+          {title}
+        </h2>
         {lede && <p style={{ fontSize: 16.5, color: "var(--ink-2)", maxWidth: 500, margin: 0, lineHeight: 1.6, ...(ledeStyle || {}) }}>{lede}</p>}
       </div>
       <style>{`@media (max-width: 780px) { .sh-grid { grid-template-columns: 1fr; gap: 12px; } }`}</style>
@@ -249,11 +276,16 @@ function SectionHeader({ num, tag, title, lede, titleStyle, ledeStyle, numStyle,
   );
 }
 
-function About() {
+export function About() {
   return (
     <section id="about" style={{ padding: "52px 0 104px" }}>
       <div className="container">
-        <SectionHeader num="I" tag="The Story" titleStyle={{ width: "100%", maxWidth: 840, fontSize: "clamp(32px, 5.5vw, 60px)" }} title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>} />
+        <SectionHeader
+          num="I"
+          tag="The Story"
+          titleStyle={{ width: "100%", maxWidth: 840, fontSize: "clamp(32px, 5.5vw, 60px)" }}
+          title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>}
+        />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }} className="about-grid reveal">
           <div style={{ fontSize: 16.5, lineHeight: 1.72, color: "var(--ink-2)" }}>
@@ -299,40 +331,46 @@ function Row({ k, v }) {
   );
 }
 
-function Experience() {
+export function Experience() {
   return (
     <section id="work" style={{ padding: "96px 0", background: "var(--paper-2)" }}>
       <div className="container">
         <SectionHeader num="II" tag="Experience" title={<>What I <em style={{ color: "var(--accent)" }}>owned</em>, what I <em style={{ color: "var(--accent)" }}>built</em>, what changed because of it.</>} lede={"\n"} />
 
         <div className="reveal">
-          {window.EXPERIENCE.map((e, i) => (
-            <div key={e.id} style={{
-              display: "grid",
-              gridTemplateColumns: "176px 1fr 1fr",
-              gap: 36,
-              padding: "40px 0",
-              borderTop: "1px solid var(--line)",
-            }} className="exp-row">
+          {EXPERIENCE.map((experience) => (
+            <div
+              key={experience.id}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "176px 1fr 1fr",
+                gap: 36,
+                padding: "40px 0",
+                borderTop: "1px solid var(--line)",
+              }}
+              className="exp-row"
+            >
               <div>
-                <div className="mono" style={{ fontSize: 11, color: "var(--muted)" }}>{e.period}</div>
+                <div className="mono" style={{ fontSize: 11, color: "var(--muted)" }}>{experience.period}</div>
                 <div style={{ marginTop: 10 }}>
-                  <div className="serif" style={{ fontSize: 26, lineHeight: 1.08 }}>{e.company}</div>
-                  <div style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 5 }}>{e.role}</div>
-                  <div className="mono" style={{ fontSize: 11, color: "var(--muted-2)", marginTop: 10 }}>{e.place}</div>
+                  <div className="serif" style={{ fontSize: 26, lineHeight: 1.08 }}>{experience.company}</div>
+                  <div style={{ fontSize: 13.5, color: "var(--muted)", marginTop: 5 }}>{experience.role}</div>
+                  <div className="mono" style={{ fontSize: 11, color: "var(--muted-2)", marginTop: 10 }}>{experience.place}</div>
                 </div>
               </div>
 
               <div style={{ display: "grid", gridTemplateRows: "auto auto", gap: 18 }}>
-                <ExpBlock label="Owned" body={e.owned} />
-                <ExpBlock label="Built" body={e.built} />
+                <ExpBlock label="Owned" body={experience.owned} />
+                <ExpBlock label="Built" body={experience.built} />
               </div>
 
               <div style={{ display: "grid", gridTemplateRows: "1fr auto", gap: 18 }}>
-                <ExpBlock label="What changed" body={e.changed} emph />
+                <ExpBlock label="What changed" body={experience.changed} emph />
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  {e.tags.map(t => (
-                    <span key={t} className="mono" style={{ fontSize: 10, padding: "4px 8px", border: "1px solid var(--line-2)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>{t}</span>
+                  {experience.tags.map((tag) => (
+                    <span key={tag} className="mono" style={{ fontSize: 10, padding: "4px 8px", border: "1px solid var(--line-2)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -355,7 +393,7 @@ function ExpBlock({ label, body, emph }) {
   );
 }
 
-function Writing() {
+export function Writing() {
   return (
     <section id="writing" style={{ padding: "92px 0", background: "var(--paper-2)" }}>
       <div className="container">
@@ -367,10 +405,10 @@ function Writing() {
         />
 
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
-          {window.WRITING.map((w, i) => (
+          {WRITING.map((writing, index) => (
             <a
-              key={i}
-              href={w.href}
+              key={index}
+              href={writing.href}
               target="_blank"
               rel="noreferrer"
               style={{
@@ -382,26 +420,36 @@ function Writing() {
                 gap: 16,
                 transition: "border-color .25s ease, transform .25s ease, box-shadow .25s ease",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 22px 40px rgba(20,19,17,0.08)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}
+              onMouseEnter={(event) => {
+                event.currentTarget.style.borderColor = "var(--accent)";
+                event.currentTarget.style.transform = "translateY(-2px)";
+                event.currentTarget.style.boxShadow = "0 22px 40px rgba(20,19,17,0.08)";
+              }}
+              onMouseLeave={(event) => {
+                event.currentTarget.style.borderColor = "var(--line)";
+                event.currentTarget.style.transform = "none";
+                event.currentTarget.style.boxShadow = "none";
+              }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="mono" style={{ fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted)" }}>{w.pub}</span>
-                <span className="mono" style={{ fontSize: 10, letterSpacing: ".1em", color: "var(--muted-2)" }}>{w.date}</span>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted)" }}>{writing.pub}</span>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: ".1em", color: "var(--muted-2)" }}>{writing.date}</span>
               </div>
 
-              <div className="serif" style={{ fontSize: 26, lineHeight: 1.2, color: "var(--ink)" }}>{w.title}</div>
+              <div className="serif" style={{ fontSize: 26, lineHeight: 1.2, color: "var(--ink)" }}>{writing.title}</div>
 
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>{w.excerpt}</p>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>{writing.excerpt}</p>
 
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: "auto" }}>
-                {w.tags.map(t => (
-                  <span key={t} className="mono" style={{ fontSize: 10, padding: "3px 8px", border: "1px solid var(--line-2)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>{t}</span>
+                {writing.tags.map((tag) => (
+                  <span key={tag} className="mono" style={{ fontSize: 10, padding: "3px 8px", border: "1px solid var(--line-2)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".08em" }}>
+                    {tag}
+                  </span>
                 ))}
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 14, borderTop: "1px dashed var(--line)" }}>
-                <span className="mono" style={{ fontSize: 10, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>{w.role}</span>
+                <span className="mono" style={{ fontSize: 10, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>{writing.role}</span>
                 <span className="mono" style={{ fontSize: 11, color: "var(--accent)" }}>Read on Intertrust ↗</span>
               </div>
             </a>
@@ -413,25 +461,28 @@ function Writing() {
   );
 }
 
-function Skills() {
+export function Skills() {
   return (
     <section id="skills" style={{ padding: "80px 0" }}>
       <div className="container">
         <SectionHeader num="V" tag="Skills" title={<span style={{ width: "100%", maxWidth: 1000, display: "inline-block" }}>The skill stack — <em style={{ color: "var(--accent)" }}>analytical</em>, <em style={{ color: "var(--accent)" }}>product</em>, <em style={{ color: "var(--accent)" }}>strategic</em>, <em style={{ color: "var(--accent)" }}>AI</em>.</span>} />
 
         <div className="reveal toolkit-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, border: "1px solid var(--line)" }}>
-          {window.SKILLS.map((s, i) => (
-            <div key={s.group} style={{
-              padding: 28,
-              borderLeft: i > 0 ? "1px solid var(--line)" : "0",
-              background: i % 2 === 1 ? "var(--card)" : "transparent",
-            }}>
-              <div className="eyebrow" style={{ marginBottom: 12 }}>{`0${i+1} · ${s.group}`}</div>
-              <div className="serif" style={{ fontSize: 26, lineHeight: 1.15, marginBottom: 20 }}>{s.blurb}</div>
+          {SKILLS.map((skill, index) => (
+            <div
+              key={skill.group}
+              style={{
+                padding: 28,
+                borderLeft: index > 0 ? "1px solid var(--line)" : "0",
+                background: index % 2 === 1 ? "var(--card)" : "transparent",
+              }}
+            >
+              <div className="eyebrow" style={{ marginBottom: 12 }}>{`0${index + 1} · ${skill.group}`}</div>
+              <div className="serif" style={{ fontSize: 26, lineHeight: 1.15, marginBottom: 20 }}>{skill.blurb}</div>
               <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {s.items.map(it => (
-                  <li key={it} className="mono" style={{ fontSize: 12, padding: "6px 0", borderTop: "1px dashed var(--line)", color: "var(--ink-2)" }}>
-                    {it}
+                {skill.items.map((item) => (
+                  <li key={item} className="mono" style={{ fontSize: 12, padding: "6px 0", borderTop: "1px dashed var(--line)", color: "var(--ink-2)" }}>
+                    {item}
                   </li>
                 ))}
               </ul>
@@ -454,18 +505,18 @@ function Skills() {
   );
 }
 
-function Principles() {
+export function Principles() {
   return (
     <section id="thinking" style={{ padding: "80px 0", background: "var(--paper-2)" }}>
       <div className="container">
         <SectionHeader num="V" tag="How I Think" title={<>Six operating <em style={{ color: "var(--accent)" }}>principles</em>.</>} lede="Distilled from the projects above. These are the things I'll say in a meeting before I've thought about whether to say them." />
 
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
-          {window.PRINCIPLES.map(p => (
-            <div key={p.n} style={{ background: "var(--paper)", border: "1px solid var(--line)", padding: 28, position: "relative" }}>
-              <div className="mono" style={{ fontSize: 10, color: "var(--muted-2)", letterSpacing: ".2em", marginBottom: 14 }}>{p.n}</div>
-              <div className="serif" style={{ fontSize: 24, lineHeight: 1.2, color: "var(--ink)", marginBottom: 14 }}>"{p.title}"</div>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>{p.body}</p>
+          {PRINCIPLES.map((principle) => (
+            <div key={principle.n} style={{ background: "var(--paper)", border: "1px solid var(--line)", padding: 28, position: "relative" }}>
+              <div className="mono" style={{ fontSize: 10, color: "var(--muted-2)", letterSpacing: ".2em", marginBottom: 14 }}>{principle.n}</div>
+              <div className="serif" style={{ fontSize: 24, lineHeight: 1.2, color: "var(--ink)", marginBottom: 14 }}>"{principle.title}"</div>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>{principle.body}</p>
             </div>
           ))}
         </div>
@@ -475,7 +526,7 @@ function Principles() {
   );
 }
 
-function Contact() {
+export function Contact() {
   return (
     <section id="contact" style={{ padding: "120px 0 60px" }}>
       <div className="container">
@@ -485,22 +536,30 @@ function Contact() {
         </div>
 
         <div className="reveal" style={{ padding: "40px 0 60px", borderTop: "1px solid var(--line)" }}>
-          <h2 className="serif" style={{
-            fontSize: "clamp(44px, 6.4vw, 96px)",
-            lineHeight: 0.98, margin: 0, fontWeight: 400, letterSpacing: "-0.02em", textWrap: "balance", maxWidth: 1100,
-          }}>
+          <h2
+            className="serif"
+            style={{
+              fontSize: "clamp(44px, 6.4vw, 96px)",
+              lineHeight: 0.98,
+              margin: 0,
+              fontWeight: 400,
+              letterSpacing: "-0.02em",
+              textWrap: "balance",
+              maxWidth: 1100,
+            }}
+          >
             I'm always open to conversations around <em style={{ color: "var(--accent)" }}>product</em>, <em style={{ color: "var(--accent)" }}>strategy</em>, and building better <em style={{ color: "var(--accent)" }}>decision systems</em> — let's find a time to connect.
           </h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, marginTop: 60, alignItems: "end" }} className="contact-grid">
             <div>
-              <a href={`mailto:${window.PROFILE.email}`} className="serif" style={{ fontSize: 32, color: "var(--ink)", borderBottom: "1px solid var(--line-2)", display: "inline-block", paddingBottom: 4 }}>
-                {window.PROFILE.email}
+              <a href={`mailto:${PROFILE.email}`} className="serif" style={{ fontSize: 32, color: "var(--ink)", borderBottom: "1px solid var(--line-2)", display: "inline-block", paddingBottom: 4 }}>
+                {PROFILE.email}
               </a>
               <div style={{ display: "flex", gap: 24, marginTop: 20, flexWrap: "wrap" }}>
-                <a href={`https://${window.PROFILE.linkedin}`} target="_blank" rel="noreferrer" className="mono" style={{ fontSize: 12, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>LinkedIn ↗</a>
-                <a href={`tel:${window.PROFILE.phone}`} className="mono" style={{ fontSize: 12, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>{window.PROFILE.phone}</a>
-                <span className="mono" style={{ fontSize: 12, color: "var(--muted-2)" }}>{window.PROFILE.location}</span>
+                <a href={`https://${PROFILE.linkedin}`} target="_blank" rel="noreferrer" className="mono" style={{ fontSize: 12, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>LinkedIn ↗</a>
+                <a href={`tel:${PROFILE.phone}`} className="mono" style={{ fontSize: 12, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".1em" }}>{PROFILE.phone}</a>
+                <span className="mono" style={{ fontSize: 12, color: "var(--muted-2)" }}>{PROFILE.location}</span>
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
@@ -520,5 +579,3 @@ function Contact() {
     </section>
   );
 }
-
-Object.assign(window, { Nav, Hero, About, Experience, Skills, Principles, Writing, Contact, SectionHeader, Arrow });

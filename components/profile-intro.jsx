@@ -1,3 +1,6 @@
+import React from "react";
+import { PROFILE } from "./data.jsx";
+
 // ============================================================
 // Profile intro modal — first-visit glassmorphism card
 // ============================================================
@@ -47,13 +50,12 @@ function CloseIcon() {
   );
 }
 
-function GlassmorphismProfileCard({ onClose }) {
+export function GlassmorphismProfileCard({ onClose }) {
   const [imageFailed, setImageFailed] = React.useState(false);
   const closeButtonRef = React.useRef(null);
-  const profile = window.PROFILE || {};
-  const linkedInHref = resolveLinkedInHref(profile.linkedin);
-  const contactHref = `mailto:${profile.email || "joshuaseverin@berkeley.edu"}`;
-  const avatarSrc = profile.headshot || "/public/images/JS_headshot.png";
+  const linkedInHref = resolveLinkedInHref(PROFILE.linkedin);
+  const contactHref = `mailto:${PROFILE.email || "joshuaseverin@berkeley.edu"}`;
+  const avatarSrc = PROFILE.headshot || "/images/JS_headshot.png";
 
   React.useEffect(() => {
     if (closeButtonRef.current) closeButtonRef.current.focus();
@@ -177,7 +179,7 @@ function GlassmorphismProfileCard({ onClose }) {
                 letterSpacing: "-0.03em",
               }}
             >
-              {profile.name || "Joshua Severin"}
+              {PROFILE.name || "Joshua Severin"}
             </h2>
 
             <p
@@ -190,7 +192,7 @@ function GlassmorphismProfileCard({ onClose }) {
                 textWrap: "balance",
               }}
             >
-              {profile.introTitle || "UC Berkeley Economics | Business Development & Product"}
+              {PROFILE.introTitle || "UC Berkeley Economics | Business Development & Product"}
             </p>
 
             <p
@@ -204,7 +206,7 @@ function GlassmorphismProfileCard({ onClose }) {
                 maxWidth: 360,
               }}
             >
-              {profile.introBio || "I build models, systems, and products that turn complex data into clearer decisions."}
+              {PROFILE.introBio || "I build models, systems, and products that turn complex data into clearer decisions."}
             </p>
 
             <div
@@ -237,14 +239,7 @@ function GlassmorphismProfileCard({ onClose }) {
                 }}
               >
                 <LinkedInIcon />
-                <span
-                  className="mono"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: ".14em",
-                    textTransform: "uppercase",
-                  }}
-                >
+                <span className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase" }}>
                   LinkedIn
                 </span>
               </a>
@@ -265,14 +260,7 @@ function GlassmorphismProfileCard({ onClose }) {
                   transition: "transform .22s ease, background .22s ease, border-color .22s ease",
                 }}
               >
-                <span
-                  className="mono"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: ".14em",
-                    textTransform: "uppercase",
-                  }}
-                >
+                <span className="mono" style={{ fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase" }}>
                   Contact Me
                 </span>
               </a>
@@ -340,7 +328,7 @@ function GlassmorphismProfileCard({ onClose }) {
   );
 }
 
-function ProfileIntroModal({ open, onClose }) {
+export default function ProfileIntroModal({ open, onClose }) {
   React.useEffect(() => {
     if (!open) return undefined;
     const onKeyDown = (event) => {
@@ -404,5 +392,3 @@ function ProfileIntroModal({ open, onClose }) {
     </div>
   );
 }
-
-Object.assign(window, { ProfileIntroModal, GlassmorphismProfileCard });
