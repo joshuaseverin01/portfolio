@@ -701,13 +701,13 @@ export function OverviewPage() {
           num="I"
           tag="Overview"
           title={<>A quick snapshot of the work, what I’m building, and where I’m headed.</>}
-          lede="Energy markets, product thinking, operating systems, and business development, all anchored in work that has to hold up in the real world."
+          lede="Product, systems, and business decisions, all anchored in work that has to hold up in the real world."
         />
 
         <div style={{ display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: 64, alignItems: "start" }} className="overview-grid">
           <div className="reveal" style={{ maxWidth: 720 }}>
             <p style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", marginTop: 0 }}>
-              I study Economics at UC Berkeley and work at the intersection of energy markets, product, and operating systems. At Intertrust Technologies, I’ve spent the last year modeling battery-storage economics and VPP integration strategy for utility stakeholders making real capital-allocation decisions.
+              I study Economics at UC Berkeley and work at the intersection of product, systems, and decision-making. At Intertrust Technologies, I’ve spent the last year building decision models used in real capital-allocation decisions.
             </p>
             <p style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", marginBottom: 0 }}>
               In parallel, I’m building PitchPoint, a youth sports operating system shaped by my experience as a coach, operator, and founder. I’m exploring full-time roles in business development and product starting Summer 2026, especially roles that sit close to systems, decisions, and execution.
