@@ -342,26 +342,36 @@ export function Hero({ onViewProjects }) {
         }
         @media (max-width: 640px) {
           .hero-shell {
-            gap: 18px !important;
+            grid-template-columns: minmax(124px, 148px) minmax(0, 1fr) !important;
+            gap: 14px 18px !important;
+            align-items: start !important;
           }
           .hero-mobile-name {
             display: block !important;
-            order: 1;
-            width: 100%;
-            text-align: center;
+            grid-column: 1 / 2;
+            grid-row: 1;
+            width: auto;
+            text-align: left;
+            align-self: end;
           }
           .hero-portrait-col {
-            order: 2 !important;
-            justify-items: center !important;
+            grid-column: 1 / 2;
+            grid-row: 2;
+            order: initial !important;
+            justify-items: start !important;
+            align-content: start !important;
             gap: 0 !important;
           }
           .hero-side-meta {
             display: none !important;
           }
           .hero-main-col {
-            order: 3;
-            justify-items: center !important;
-            gap: 18px !important;
+            grid-column: 2 / 3;
+            grid-row: 1 / span 2;
+            order: initial;
+            justify-items: start !important;
+            align-content: start !important;
+            gap: 16px !important;
           }
           .hero-main-label {
             display: none !important;
@@ -370,31 +380,35 @@ export function Hero({ onViewProjects }) {
             display: grid !important;
             gap: 8px;
             width: 100%;
-            justify-items: center;
+            justify-items: start;
           }
           .hero-copy-col {
-            order: 4;
+            grid-column: 1 / -1;
+            grid-row: 3;
+            order: initial;
             width: 100%;
-            justify-items: center !important;
+            justify-items: start !important;
             gap: 18px !important;
           }
           .hero-cta-row {
-            justify-content: center !important;
+            justify-content: flex-start !important;
           }
           .hero-role-line {
-            text-align: center !important;
+            text-align: left !important;
           }
           .hero-portrait-col > span {
-            width: 172px !important;
-            height: 208px !important;
+            width: 128px !important;
+            height: 156px !important;
           }
           .hero-h1 {
-            text-align: center !important;
+            font-size: clamp(30px, 9vw, 40px) !important;
+            text-align: left !important;
+            max-width: none !important;
           }
           .hero-sub {
             width: 100% !important;
-            max-width: min(100%, 34rem) !important;
-            text-align: center !important;
+            max-width: none !important;
+            text-align: left !important;
           }
         }
       `}</style>
