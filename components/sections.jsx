@@ -414,7 +414,7 @@ export function Hero({ onViewProjects }) {
                 textAlign: "left",
               }}
             >
-              I’m exploring full-time roles in business development and product, starting in Summer 2026. Over the last year, I’ve modeled battery storage economics and VPP integration strategy for utilities at Intertrust Technologies. In parallel, I built a youth sports operating system called 'PitchPoint' from scratch.
+              I’m exploring full-time roles in business development and product, starting in Summer 2026, focused on high-impact work at the intersection of data, strategy, and product. Over the last year, I’ve worked on quantitative modeling and strategy projects at Intertrust Technologies, translating complex data into decision-ready insights. In parallel, I built a youth sports operating system called PitchPoint from scratch.
             </p>
 
             <div className="hero-cta-row" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start" }}>
