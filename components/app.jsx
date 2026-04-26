@@ -210,6 +210,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
+  const openProfileIntro = React.useCallback(() => {
+    setShowProfileIntro(true);
+  }, []);
+
   function closeProfileIntro() {
     try {
       window.localStorage.setItem(PROFILE_CARD_STORAGE_KEY, "true");
@@ -222,7 +226,7 @@ export default function App() {
   return (
     <>
       <Cursor routeKey={currentPath} />
-      <Nav currentPath={currentPath} onNavigate={navigate} />
+      <Nav currentPath={currentPath} onNavigate={navigate} onOpenProfileCard={openProfileIntro} />
       <RouteView path={currentPath} navigate={navigate} />
       <Contact />
       <TweaksPanel />

@@ -137,7 +137,7 @@ function NavItem({ href, label, currentPath, onNavigate }) {
   );
 }
 
-export function Nav({ currentPath, onNavigate }) {
+export function Nav({ currentPath, onNavigate, onOpenProfileCard }) {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -183,20 +183,42 @@ export function Nav({ currentPath, onNavigate }) {
           transition: "all .35s ease",
         }}
       >
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <a href="/" onClick={routeClick(handleNavigate, "/")} className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <HeadshotFrame
-              width={30}
-              height={30}
-              radius={999}
-              alt="Josh Severin headshot"
-              frameStyle={{
-                border: "1px solid color-mix(in oklab, var(--ink) 16%, transparent)",
-                boxShadow: scrolled ? "0 10px 24px rgba(20, 19, 17, 0.08)" : "0 12px 28px rgba(20, 19, 17, 0.12)",
-              }}
-            />
-            <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
-          </a>
+        <div className="container nav-inner" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div className="nav-brand-stack" style={{ display: "grid", gap: 10 }}>
+            <a href="/" onClick={routeClick(handleNavigate, "/")} className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <HeadshotFrame
+                width={30}
+                height={30}
+                radius={999}
+                alt="Josh Severin headshot"
+                frameStyle={{
+                  border: "1px solid color-mix(in oklab, var(--ink) 16%, transparent)",
+                  boxShadow: scrolled ? "0 10px 24px rgba(20, 19, 17, 0.08)" : "0 12px 28px rgba(20, 19, 17, 0.12)",
+                }}
+              />
+              <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
+            </a>
+
+            <div className="mobile-brand-actions" style={{ display: "none", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <a href="/" onClick={routeClick(handleNavigate, "/")} className="mono mobile-home-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+                Home
+              </a>
+              <button
+                type="button"
+                onClick={onOpenProfileCard}
+                className="mono mobile-profile-link"
+                style={{
+                  padding: 0,
+                  fontSize: 10.5,
+                  letterSpacing: ".16em",
+                  textTransform: "uppercase",
+                  color: "var(--muted)",
+                }}
+              >
+                Profile Card
+              </button>
+            </div>
+          </div>
 
           <div style={{ display: "flex", gap: 30 }} className="nav-links">
             {PAGE_LINKS.map((link) => (
@@ -208,6 +230,27 @@ export function Nav({ currentPath, onNavigate }) {
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 14 }} className="nav-status">
+            <button
+              type="button"
+              onClick={onOpenProfileCard}
+              className="mono nav-profile-button"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 36,
+                padding: "0 16px",
+                border: "1px solid color-mix(in oklab, var(--ink) 12%, var(--line))",
+                borderRadius: 999,
+                background: "color-mix(in oklab, var(--paper) 88%, white)",
+                fontSize: 10.5,
+                letterSpacing: ".14em",
+                textTransform: "uppercase",
+                color: "var(--ink)",
+              }}
+            >
+              Profile Card
+            </button>
             <span className="mono" style={{ fontSize: 10.5, color: "var(--muted)" }}>
               <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--accent-2)", marginRight: 6, animation: "pulse 2.2s ease infinite" }} />
               Available Summer '26
@@ -280,13 +323,22 @@ export function Nav({ currentPath, onNavigate }) {
       <style>{`
         .nav-link,
         .nav-brand,
+        .mobile-home-link,
+        .mobile-profile-link,
+        .nav-profile-button,
         .mobile-nav-link,
         .mobile-nav-toggle {
           transition: color .22s ease, opacity .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
         }
         .nav-link:hover,
-        .nav-brand:hover {
+        .nav-brand:hover,
+        .mobile-home-link:hover,
+        .mobile-profile-link:hover {
           color: var(--ink);
+        }
+        .nav-profile-button:hover {
+          border-color: var(--ink);
+          box-shadow: 0 14px 24px rgba(20, 19, 17, 0.08);
         }
         .mobile-nav-toggle:hover {
           border-color: var(--ink);
@@ -324,6 +376,12 @@ export function Nav({ currentPath, onNavigate }) {
           .nav-links,
           .nav-status {
             display: none !important;
+          }
+          .nav-inner {
+            align-items: flex-start !important;
+          }
+          .mobile-brand-actions {
+            display: flex !important;
           }
           .mobile-nav-toggle {
             display: inline-flex !important;
@@ -701,11 +759,13 @@ export function OverviewPage() {
           num="I"
           tag="Overview"
           title={<>A quick snapshot of the work, what I’m building, and where I’m headed.</>}
-          lede="Product, systems, and business decisions, all anchored in work that has to hold up in the real world."
         />
 
         <div style={{ display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: 64, alignItems: "start" }} className="overview-grid">
           <div className="reveal" style={{ maxWidth: 720 }}>
+            <p style={{ fontSize: 16.5, color: "var(--ink-2)", maxWidth: 500, margin: "0 0 24px", lineHeight: 1.6 }}>
+              Product, systems, and business decisions, all anchored in work that has to hold up in the real world.
+            </p>
             <p style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", marginTop: 0 }}>
               I study Economics at UC Berkeley and work at the intersection of product, systems, and decision-making. At Intertrust Technologies, I’ve spent the last year building decision models used in real capital-allocation decisions.
             </p>
@@ -732,7 +792,7 @@ export function StoryPage() {
         <SectionHeader
           num="I"
           tag="The Story"
-          title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>}
+          title={<>From a factory floor in Germany to Berkeley</>}
           titleStyle={{ width: "100%", maxWidth: 880, fontSize: "clamp(32px, 5.5vw, 60px)" }}
         />
         <StoryColumn paragraphs={STORY_PARAGRAPHS} />
