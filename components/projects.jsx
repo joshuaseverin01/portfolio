@@ -23,7 +23,7 @@ export default function Projects() {
         <SectionHeader
           num="III"
           tag="Selected Projects"
-          title={<>Five projects from the last <em style={{ color: "var(--signal)" }}>18 months</em>.</>}
+          title={<>Six projects from the last <em style={{ color: "var(--signal)" }}>18 months</em>.</>}
           lede="Each reads the same way: the problem, the approach, the output, the thing that moved. Click any one to expand."
           wrapStyle={{ marginBottom: 72 }}
           titleStyle={{ maxWidth: 760 }}

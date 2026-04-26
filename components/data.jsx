@@ -85,8 +85,28 @@ export const PROJECTS = [
     accent: "signal",
   },
   {
-    id: "iso-benchmark",
+    id: "flexworks-dashboard",
     idx: "02",
+    title: "Flexworks Arbitrage Intelligence Dashboard",
+    client: "Flexworks internal product · U.S. zonal market intelligence",
+    tagline: "A full-stack data application that turns Flexworks battery arbitrage simulation exports into zone-level market intelligence.",
+    problem:
+      "The original workflow required exporting Flexworks simulation data, cleaning CSVs by hand, mapping outputs to transmission zones, and assembling visualizations manually for strategy presentations. Useful analysis existed, but the process was slow, repetitive, and hard to reuse.",
+    approach: [
+      "Built a Streamlit analytics product that accepts Flexworks simulation exports, optional device-to-zone mapping files, and zones GeoJSON files through a repeatable upload workflow.",
+      "Processed time-series simulation data into decision-ready metrics including revenue per kW, cumulative revenue, and zonal performance differences across U.S. energy markets.",
+      "Added a custom matplotlib-based mapping engine with polygon rendering and polylabel, plus ranked bar charts, snapshot comparisons, animated time evolution, executive-style insight summaries, and export options for CSV, HTML, and GIF outputs.",
+    ],
+    output:
+      "Internal market-intelligence dashboard with bundled demo data, geospatial visualization, temporal animation, executive-ready summaries, and reusable exports for strategy and presentation workflows.",
+    impact:
+      "Automated a manual internship workflow into a repeatable analytics product that converts raw simulation outputs into decision-ready insights for market evaluation and strategy work.",
+    tags: ["Product Automation", "Market Intelligence", "Energy Analytics", "Python · Streamlit"],
+    accent: "accent",
+  },
+  {
+    id: "iso-benchmark",
+    idx: "03",
     title: "Zonal Battery Revenue — ERCOT · PJM · CAISO",
     client: "Intertrust Flexworks · Utility and developer clients",
     tagline: "Same battery, different zip code. Quantifying where location wins.",
@@ -107,7 +127,7 @@ export const PROJECTS = [
   },
   {
     id: "re-plus",
-    idx: "03",
+    idx: "04",
     title: "Value-Stack Gap Analysis",
     client: "Flexworks positioning · RE+ 2025, Las Vegas",
     tagline: "Most DER owners capture arbitrage and walk away. The rest of the stack is on the table.",
@@ -127,7 +147,7 @@ export const PROJECTS = [
   },
   {
     id: "ot-security",
-    idx: "04",
+    idx: "05",
     title: "Energy OT Security in a DER-Dominated Grid",
     client: "Intertrust internal strategy · Europe-focused",
     tagline: "The attack surface of decentralization.",
@@ -147,7 +167,7 @@ export const PROJECTS = [
   },
   {
     id: "pitchpoint-proj",
-    idx: "05",
+    idx: "06",
     title: "PitchPoint — Club Operating System",
     client: "UC Berkeley pilot · 3 teams, 160+ profiles",
     demoNote: "Try the PitchPoint demo here.",
