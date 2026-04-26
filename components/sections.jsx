@@ -58,6 +58,16 @@ const HOME_CARDS = [
   },
 ];
 
+const PAGE_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/overview", label: "Overview" },
+  { href: "/story", label: "Story" },
+  { href: "/experience", label: "Experience" },
+  { href: "/projects", label: "Projects" },
+  { href: "/writing", label: "Writing" },
+  { href: "/skills", label: "Skills" },
+];
+
 function isModifiedEvent(event) {
   return event.metaKey || event.altKey || event.ctrlKey || event.shiftKey;
 }
@@ -129,6 +139,7 @@ function NavItem({ href, label, currentPath, onNavigate }) {
 
 export function Nav({ currentPath, onNavigate }) {
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -136,68 +147,190 @@ export function Nav({ currentPath, onNavigate }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  React.useEffect(() => {
+    setMenuOpen(false);
+  }, [currentPath]);
+
+  React.useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
+  const handleNavigate = React.useCallback((path) => {
+    setMenuOpen(false);
+    if (onNavigate) onNavigate(path);
+  }, [onNavigate]);
+
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 40,
-        padding: scrolled ? "12px 0" : "24px 0",
-        background: scrolled ? "color-mix(in oklab, var(--paper) 90%, transparent)" : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid color-mix(in oklab, var(--line) 82%, transparent)" : "1px solid transparent",
-        transition: "all .35s ease",
-      }}
-    >
-      <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <a href="/" onClick={routeClick(onNavigate, "/")} className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <HeadshotFrame
-            width={30}
-            height={30}
-            radius={999}
-            alt="Josh Severin headshot"
-            frameStyle={{
-              border: "1px solid color-mix(in oklab, var(--ink) 16%, transparent)",
-              boxShadow: scrolled ? "0 10px 24px rgba(20, 19, 17, 0.08)" : "0 12px 28px rgba(20, 19, 17, 0.12)",
-            }}
-          />
-          <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
-        </a>
-
-        <div style={{ display: "flex", gap: 30 }} className="nav-links">
-          <NavItem href="/" label="Home" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/overview" label="Overview" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/story" label="Story" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/experience" label="Experience" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/projects" label="Projects" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/writing" label="Writing" currentPath={currentPath} onNavigate={onNavigate} />
-          <NavItem href="/skills" label="Skills" currentPath={currentPath} onNavigate={onNavigate} />
-          <a href="#contact" className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
-            Contact
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 40,
+          padding: scrolled ? "12px 0" : "24px 0",
+          background: scrolled ? "color-mix(in oklab, var(--paper) 90%, transparent)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled ? "1px solid color-mix(in oklab, var(--line) 82%, transparent)" : "1px solid transparent",
+          transition: "all .35s ease",
+        }}
+      >
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <a href="/" onClick={routeClick(handleNavigate, "/")} className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <HeadshotFrame
+              width={30}
+              height={30}
+              radius={999}
+              alt="Josh Severin headshot"
+              frameStyle={{
+                border: "1px solid color-mix(in oklab, var(--ink) 16%, transparent)",
+                boxShadow: scrolled ? "0 10px 24px rgba(20, 19, 17, 0.08)" : "0 12px 28px rgba(20, 19, 17, 0.12)",
+              }}
+            />
+            <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
           </a>
-        </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <span className="mono" style={{ fontSize: 10.5, color: "var(--muted)" }}>
-            <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--accent-2)", marginRight: 6, animation: "pulse 2.2s ease infinite" }} />
-            Available Summer '26
-          </span>
+          <div style={{ display: "flex", gap: 30 }} className="nav-links">
+            {PAGE_LINKS.map((link) => (
+              <NavItem key={link.href} href={link.href} label={link.label} currentPath={currentPath} onNavigate={onNavigate} />
+            ))}
+            <a href="#contact" className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Contact
+            </a>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }} className="nav-status">
+            <span className="mono" style={{ fontSize: 10.5, color: "var(--muted)" }}>
+              <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--accent-2)", marginRight: 6, animation: "pulse 2.2s ease infinite" }} />
+              Available Summer '26
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className="mono mobile-nav-toggle"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-panel"
+            onClick={() => setMenuOpen((open) => !open)}
+            style={{
+              display: "none",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 14px",
+              border: "1px solid color-mix(in oklab, var(--ink) 12%, var(--line))",
+              borderRadius: 999,
+              background: "color-mix(in oklab, var(--paper) 88%, white)",
+              fontSize: 10.5,
+              letterSpacing: ".14em",
+              textTransform: "uppercase",
+              color: "var(--ink)",
+            }}
+          >
+            {menuOpen ? "Close" : "Menu"}
+            <span style={{ display: "inline-grid", gap: 3 }}>
+              <span style={{ width: 14, height: 1.5, background: "currentColor", transform: menuOpen ? "translateY(4.5px) rotate(45deg)" : "none", transition: "transform .22s ease" }} />
+              <span style={{ width: 14, height: 1.5, background: "currentColor", opacity: menuOpen ? 0 : 1, transition: "opacity .18s ease" }} />
+              <span style={{ width: 14, height: 1.5, background: "currentColor", transform: menuOpen ? "translateY(-4.5px) rotate(-45deg)" : "none", transition: "transform .22s ease" }} />
+            </span>
+          </button>
         </div>
-      </div>
+      </nav>
+
+      {menuOpen && (
+        <div className="mobile-nav-overlay" onClick={() => setMenuOpen(false)}>
+          <div id="mobile-nav-panel" className="mobile-nav-panel" onClick={(event) => event.stopPropagation()}>
+            <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 10 }}>
+              Navigate
+            </div>
+
+            <div style={{ display: "grid" }}>
+              {PAGE_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={routeClick(handleNavigate, link.href)}
+                  className="mobile-nav-link"
+                >
+                  <span className="serif" style={{ fontSize: 28, lineHeight: 1.02, letterSpacing: "-0.03em" }}>{link.label}</span>
+                  <span className="mono" style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: currentPath === link.href ? "var(--accent)" : "var(--muted-2)" }}>
+                    {currentPath === link.href ? "Current" : "Open"}
+                  </span>
+                </a>
+              ))}
+
+              <a href="#contact" onClick={() => setMenuOpen(false)} className="mobile-nav-link">
+                <span className="serif" style={{ fontSize: 28, lineHeight: 1.02, letterSpacing: "-0.03em" }}>Contact</span>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--muted-2)" }}>
+                  Jump to Let&apos;s Talk
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .nav-link,
-        .nav-brand {
-          transition: color .22s ease, opacity .22s ease;
+        .nav-brand,
+        .mobile-nav-link,
+        .mobile-nav-toggle {
+          transition: color .22s ease, opacity .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
         }
         .nav-link:hover,
         .nav-brand:hover {
           color: var(--ink);
         }
+        .mobile-nav-toggle:hover {
+          border-color: var(--ink);
+          box-shadow: 0 14px 24px rgba(20, 19, 17, 0.08);
+        }
+        .mobile-nav-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 35;
+          padding: 84px 20px 24px;
+          background: rgba(18, 16, 13, 0.16);
+          backdrop-filter: blur(16px);
+        }
+        .mobile-nav-panel {
+          width: min(100%, 420px);
+          margin-left: auto;
+          background: color-mix(in oklab, var(--paper) 92%, white);
+          border: 1px solid var(--line);
+          box-shadow: 0 26px 60px rgba(20, 19, 17, 0.14);
+          padding: 16px 18px 10px;
+        }
+        .mobile-nav-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          padding: 16px 2px;
+          border-top: 1px solid var(--line);
+          color: var(--ink);
+        }
+        .mobile-nav-link:hover {
+          color: var(--accent);
+        }
+        @media (max-width: 900px) {
+          .nav-links,
+          .nav-status {
+            display: none !important;
+          }
+          .mobile-nav-toggle {
+            display: inline-flex !important;
+          }
+        }
       `}</style>
-    </nav>
+    </>
   );
 }
 
