@@ -2,6 +2,8 @@
 // App — composition root
 // ============================================================
 
+const PROFILE_CARD_STORAGE_KEY = "hasSeenProfileCard";
+
 function useReveal() {
   React.useEffect(() => {
     const els = document.querySelectorAll(".reveal");
@@ -47,6 +49,14 @@ function Cursor() {
 
 function App() {
   useReveal();
+  const [showProfileIntro, setShowProfileIntro] = React.useState(() => {
+    try {
+      return window.localStorage.getItem(PROFILE_CARD_STORAGE_KEY) !== "true";
+    } catch (error) {
+      return true;
+    }
+  });
+
   // Re-run reveal observer after projects toggle, in case newly-revealed items
   React.useEffect(() => {
     const t = setInterval(() => {
@@ -57,6 +67,35 @@ function App() {
     }, 500);
     return () => clearInterval(t);
   }, []);
+
+  React.useEffect(() => {
+    const root = document.documentElement;
+    const body = document.body;
+    const previousRootOverflow = root.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+
+    if (showProfileIntro) {
+      root.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      root.style.overflow = "";
+      body.style.overflow = "";
+    }
+
+    return () => {
+      root.style.overflow = previousRootOverflow;
+      body.style.overflow = previousBodyOverflow;
+    };
+  }, [showProfileIntro]);
+
+  function closeProfileIntro() {
+    try {
+      window.localStorage.setItem(PROFILE_CARD_STORAGE_KEY, "true");
+    } catch (error) {
+      // Ignore storage failures and still dismiss for the current page load.
+    }
+    setShowProfileIntro(false);
+  }
 
   return (
     <>
@@ -70,6 +109,7 @@ function App() {
       <Skills />
       <Contact />
       <TweaksPanel />
+      <ProfileIntroModal open={showProfileIntro} onClose={closeProfileIntro} />
     </>
   );
 }

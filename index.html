@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Joshua Severin — Operator at the intersection of energy markets and product</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,49 +12,65 @@
 
 <style>
 :root {
-  --ink: #141311;
-  --ink-2: #2a2722;
-  --muted: #6b665d;
-  --muted-2: #a19b90;
-  --line: #e6e1d7;
-  --line-2: #d6d0c3;
-  --paper: #f4efe5;
-  --paper-2: #ebe5d8;
-  --card: #faf6ec;
-  --accent: #1f3a2e;       /* deep forest */
-  --accent-2: #2f6f4e;
-  --accent-soft: #d9e6db;
-  --signal: #c2410c;       /* warm oxblood-amber accent for data */
+  --ink: #12100d;
+  --ink-2: #2a251e;
+  --muted: #685f54;
+  --muted-2: #958d82;
+  --line: #ddd4c5;
+  --line-2: #cdc2b1;
+  --paper: #f4ede2;
+  --paper-2: #ebe1d2;
+  --paper-3: #dfd4c2;
+  --card: #faf4ea;
+  --accent: #1f3a31;
+  --accent-2: #2f5f49;
+  --accent-soft: #d9e3da;
+  --signal: #b85723;
+  --case-bg: #161311;
+  --case-card: rgba(245, 239, 229, 0.045);
+  --case-line: rgba(245, 239, 229, 0.14);
+  --case-text: rgba(245, 239, 229, 0.96);
+  --case-muted: rgba(245, 239, 229, 0.68);
+  --case-soft: rgba(143, 187, 161, 0.14);
   --radius: 2px;
   --density: 1;
 }
 
 html[data-theme="dark"] {
-  --ink: #eceae4;
-  --ink-2: #d4d1c7;
-  --muted: #8c8579;
-  --muted-2: #5f5a50;
-  --line: #26241f;
-  --line-2: #34312b;
+  --ink: #ece9e2;
+  --ink-2: #d5d0c5;
+  --muted: #8c8478;
+  --muted-2: #605b52;
+  --line: #26231f;
+  --line-2: #36322c;
   --paper: #121110;
-  --paper-2: #171614;
-  --card: #1b1a17;
-  --accent: #8fbba1;
-  --accent-2: #b1d4bd;
-  --accent-soft: #1e2a23;
+  --paper-2: #171513;
+  --card: #1c1a17;
+  --accent: #94bca4;
+  --accent-2: #bad8c5;
+  --accent-soft: #202a23;
   --signal: #e8895b;
+  --case-bg: #0f0d0b;
+  --case-card: rgba(255, 255, 255, 0.045);
+  --case-line: rgba(255, 255, 255, 0.12);
+  --case-text: rgba(244, 239, 229, 0.96);
+  --case-muted: rgba(244, 239, 229, 0.68);
+  --case-soft: rgba(148, 188, 164, 0.16);
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 15.5px;
+  line-height: 1.58;
   font-feature-settings: "ss01","cv11","cv02";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  background-image:
+    linear-gradient(180deg, color-mix(in oklab, var(--paper-2) 56%, var(--paper)) 0%, var(--paper) 220px),
+    linear-gradient(180deg, transparent 0%, transparent 100%);
 }
 
 .serif { font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.01em; }
@@ -63,9 +80,9 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
 .container {
-  max-width: 1200px;
+  max-width: 1260px;
   margin: 0 auto;
-  padding: 0 calc(32px * var(--density));
+  padding: 0 calc(34px * var(--density));
 }
 
 .hairline { background: var(--line); height: 1px; width: 100%; }
@@ -90,7 +107,7 @@ body::before {
   background-size: 3px 3px;
   z-index: 1;
   mix-blend-mode: multiply;
-  opacity: 0.6;
+  opacity: 0.42;
 }
 html[data-theme="dark"] body::before {
   background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -105,7 +122,7 @@ html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 /* dividers */
 .rule {
   display:flex; align-items:baseline; gap: 16px;
-  padding: 24px 0 16px;
+  padding: 32px 0 20px;
   border-top: 1px solid var(--line);
 }
 .rule .num { color: var(--muted-2); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; }
@@ -114,15 +131,18 @@ html[data-motion="0"] .reveal { opacity: 1; transform: none; transition: none; }
 /* buttons */
 .btn {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 12px 18px;
+  padding: 14px 20px;
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--paper);
-  font-size: 13px; letter-spacing: .02em;
-  transition: transform .25s ease, background .25s ease, color .25s ease;
+  font-size: 11px; letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: transform .25s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
 }
-.btn:hover { transform: translateY(-1px); }
-.btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 16px 30px rgba(20,19,17,0.12); }
+.btn.ghost { background: color-mix(in oklab, var(--paper) 92%, transparent); color: var(--ink); border-color: var(--ink); }
 .btn.ghost:hover { background: var(--ink); color: var(--paper); }
 
 /* cursor dot */
@@ -191,8 +211,8 @@ html[data-theme="dark"] .cursor-dot { mix-blend-mode: screen; }
   }
 
   /* hero */
-  .hero-h1 { font-size: 28px !important; line-height: 1.1 !important; }
-  .hero-sub { font-size: 14px !important; }
+  .hero-h1 { font-size: 36px !important; line-height: 1.04 !important; }
+  .hero-sub { font-size: 15.5px !important; }
 
   /* about subtitle */
   .about-sub { font-size: 18px !important; }
@@ -238,7 +258,7 @@ html[data-theme="dark"] .cursor-dot { mix-blend-mode: screen; }
 
 @media (max-width: 420px) {
   .container { padding: 0 16px; }
-  .hero-h1 { font-size: 22px !important; }
+  .hero-h1 { font-size: 30px !important; }
   .about-sub { font-size: 16px !important; }
 }
 
@@ -257,6 +277,7 @@ html[data-theme="dark"] .cursor-dot { mix-blend-mode: screen; }
 <script type="text/babel" src="components/viz.jsx"></script>
 <script type="text/babel" src="components/sections.jsx"></script>
 <script type="text/babel" src="components/projects.jsx"></script>
+<script type="text/babel" src="components/profile-intro.jsx"></script>
 <script type="text/babel" src="components/tweaks.jsx"></script>
 <script type="text/babel" src="components/app.jsx"></script>
 

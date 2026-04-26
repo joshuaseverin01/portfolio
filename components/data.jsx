@@ -6,10 +6,13 @@ const PROFILE = {
   name: "Joshua Severin",
   tagline: "Operator at the intersection of energy markets and product.",
   sub: "UC Berkeley Economics '26. Currently modeling battery-storage economics and VPP integration strategy for utilities at Intertrust Technologies. Previously built a youth-sports operating system from zero. I build systems that turn data into decisions.",
+  introTitle: "UC Berkeley Economics | Business Development & Product",
+  introBio: "I build models, systems, and products that turn complex data into clearer decisions.",
   location: "Berkeley, CA",
   origin: "Saarland, Germany",
   email: "joshuaseverin@berkeley.edu",
   linkedin: "linkedin.com/in/joshua-severin",
+  headshot: "/public/images/JS_headshot.png",
   phone: "669-290-8409",
 };
 
