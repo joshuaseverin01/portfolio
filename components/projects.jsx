@@ -14,7 +14,7 @@ export default function Projects() {
     <section
       id="projects"
       style={{
-        padding: "112px 0 124px",
+        padding: "148px 0 124px",
         background: "linear-gradient(180deg, color-mix(in oklab, var(--paper) 76%, var(--paper-2)) 0%, var(--paper) 18%, color-mix(in oklab, var(--paper) 88%, var(--card)) 100%)",
         position: "relative",
       }}

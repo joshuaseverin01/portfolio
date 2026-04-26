@@ -1,16 +1,23 @@
 import React from "react";
 import ProfileIntroModal from "./profile-intro.jsx";
 import Projects from "./projects.jsx";
-import { About, Contact, Experience, Hero, Nav, Skills, Writing } from "./sections.jsx";
+import { Contact, Experience, Hero, HomeNavigationCards, Nav, OverviewPage, Principles, Skills, StoryPage, Writing } from "./sections.jsx";
 import TweaksPanel from "./tweaks.jsx";
 
 // ============================================================
-// App — composition root
+// App — routed composition root
 // ============================================================
 
 const PROFILE_CARD_STORAGE_KEY = "hasSeenProfileCard";
+const VALID_PATHS = new Set(["/", "/overview", "/story", "/experience", "/projects", "/writing", "/skills"]);
 
-function useReveal() {
+function normalizePath(pathname) {
+  if (!pathname) return "/";
+  const normalized = pathname !== "/" ? pathname.replace(/\/+$/, "") : pathname;
+  return VALID_PATHS.has(normalized) ? normalized : "/";
+}
+
+function useReveal(routeKey) {
   React.useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver((entries) => {
@@ -24,10 +31,10 @@ function useReveal() {
 
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, []);
+  }, [routeKey]);
 }
 
-function Cursor() {
+function Cursor({ routeKey }) {
   const ref = React.useRef(null);
 
   React.useEffect(() => {
@@ -93,13 +100,50 @@ function Cursor() {
         node.removeEventListener("mouseleave", onLeaveLink);
       });
     };
-  }, []);
+  }, [routeKey]);
 
   return <div className="cursor-dot" ref={ref} />;
 }
 
+function HomePage({ navigate }) {
+  return (
+    <>
+      <Hero onViewProjects={() => navigate("/projects")} />
+      <HomeNavigationCards onNavigate={navigate} />
+    </>
+  );
+}
+
+function RouteView({ path, navigate }) {
+  switch (path) {
+    case "/":
+      return <HomePage navigate={navigate} />;
+    case "/overview":
+      return <OverviewPage />;
+    case "/story":
+      return <StoryPage />;
+    case "/experience":
+      return <Experience />;
+    case "/projects":
+      return <Projects />;
+    case "/writing":
+      return <Writing />;
+    case "/skills":
+      return (
+        <>
+          <Skills />
+          <Principles />
+        </>
+      );
+    default:
+      return <HomePage navigate={navigate} />;
+  }
+}
+
 export default function App() {
-  useReveal();
+  const [currentPath, setCurrentPath] = React.useState(() => normalizePath(window.location.pathname));
+
+  useReveal(currentPath);
 
   const [showProfileIntro, setShowProfileIntro] = React.useState(() => {
     try {
@@ -110,6 +154,17 @@ export default function App() {
   });
 
   React.useEffect(() => {
+    const normalized = normalizePath(window.location.pathname);
+    if (normalized !== window.location.pathname) {
+      window.history.replaceState({}, "", normalized);
+    }
+
+    const onPopState = () => setCurrentPath(normalizePath(window.location.pathname));
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  React.useEffect(() => {
     const timer = setInterval(() => {
       document.querySelectorAll(".reveal:not(.is-in)").forEach((element) => {
         const rect = element.getBoundingClientRect();
@@ -118,7 +173,7 @@ export default function App() {
     }, 500);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [currentPath]);
 
   React.useEffect(() => {
     const root = document.documentElement;
@@ -140,6 +195,21 @@ export default function App() {
     };
   }, [showProfileIntro]);
 
+  const navigate = React.useCallback((to) => {
+    const nextPath = normalizePath(to);
+    const current = normalizePath(window.location.pathname);
+
+    if (nextPath === current) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setCurrentPath(nextPath);
+      return;
+    }
+
+    window.history.pushState({}, "", nextPath);
+    setCurrentPath(nextPath);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   function closeProfileIntro() {
     try {
       window.localStorage.setItem(PROFILE_CARD_STORAGE_KEY, "true");
@@ -151,14 +221,9 @@ export default function App() {
 
   return (
     <>
-      <Cursor />
-      <Nav />
-      <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      <Writing />
-      <Skills />
+      <Cursor routeKey={currentPath} />
+      <Nav currentPath={currentPath} onNavigate={navigate} />
+      <RouteView path={currentPath} navigate={navigate} />
       <Contact />
       <TweaksPanel />
       <ProfileIntroModal open={showProfileIntro} onClose={closeProfileIntro} />

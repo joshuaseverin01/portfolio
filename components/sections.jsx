@@ -2,8 +2,74 @@ import React from "react";
 import { EXPERIENCE, PRINCIPLES, PROFILE, SKILLS, WRITING } from "./data.jsx";
 
 // ============================================================
-// Sections — hero, about, experience, skills, principles, contact
+// Sections — routed pages, homepage modules, shared contact
 // ============================================================
+
+const OVERVIEW_ROWS = [
+  ["Based", "Berkeley, CA"],
+  ["Origin", "Saarland, Germany"],
+  ["Education", "UC Berkeley · B.A. Economics · May '26"],
+  ["Coursework", "Econometrics, Financial Economics, International Trade"],
+  ["Languages", "German (native), English (fluent/native), French, Spanish"],
+  ["Current", "Intertrust Technologies · PM + BD Intern"],
+  ["Side", "PitchPoint (Founder) · Cal Men's Club Soccer (Captain)"],
+  ["Seeking", "PM, Strategy, BD, Consulting (Summer 2026 start)"],
+  ["Visa", "1 year OPT + 2 year STEM OPT extension"],
+];
+
+const STORY_PARAGRAPHS = [
+  "I grew up in a small town in Germany near the French border called Kleinottweiler. Early on, I developed the aspiration to move to the United States and build something for myself there.",
+  "I funded that move by working production shifts at Festo, building components that end up inside BMW, Mercedes, and Audi engines. It wasn’t glamorous, but it taught me that real systems don’t tolerate ambiguity. Things either work or they don’t. That mindset has stayed with me.",
+  "At Berkeley, I studied Economics and started building quantitative models at Intertrust Technologies. I spent the last year doing analyst work. One of the biggest projects was for RWE, one of Europe’s largest utilities, modeling battery storage returns across 27 US energy markets and putting findings in front of C-suite executives making nine-figure capital allocation decisions.",
+  "At the same time, I was a captain and responsible for finances on the Berkeley men’s club soccer team. As part of that role, I launched a tournament from scratch that generated a 64.5% ROI in its first year with 230+ participants and has since developed into a recurring revenue stream.",
+  "I spent my free time in the Spring building PitchPoint, a platform for youth sports clubs inspired by my work inside the youth soccer system, where I saw firsthand how fragmented tools slowed down even well-run organizations.",
+];
+
+const HOME_CARDS = [
+  {
+    path: "/overview",
+    title: "Overview",
+    preview: "A quick snapshot of what I do, what I’m building, and where I’m headed.",
+  },
+  {
+    path: "/story",
+    title: "The Story",
+    preview: "From a factory floor in Germany to Berkeley — the longer arc behind the work.",
+  },
+  {
+    path: "/experience",
+    title: "Experience",
+    preview: "Roles, operating work, and the systems I’ve helped build.",
+  },
+  {
+    path: "/projects",
+    title: "Projects",
+    preview: "Selected work across modeling, product, strategy, and operations.",
+  },
+  {
+    path: "/writing",
+    title: "Writing",
+    preview: "Published thinking, research notes, and market-facing analysis.",
+  },
+  {
+    path: "/skills",
+    title: "Skills",
+    preview: "The tools, workflows, and operating strengths behind the work.",
+  },
+];
+
+function isModifiedEvent(event) {
+  return event.metaKey || event.altKey || event.ctrlKey || event.shiftKey;
+}
+
+function routeClick(onNavigate, path) {
+  return (event) => {
+    if (!onNavigate) return;
+    if (event.defaultPrevented || isModifiedEvent(event) || event.button !== 0) return;
+    event.preventDefault();
+    onNavigate(path);
+  };
+}
 
 function HeadshotFrame({ width, height, radius, alt, frameStyle, imageStyle }) {
   const src = PROFILE.headshot || "/images/JS_headshot.png";
@@ -41,7 +107,27 @@ function HeadshotFrame({ width, height, radius, alt, frameStyle, imageStyle }) {
   );
 }
 
-export function Nav() {
+function NavItem({ href, label, currentPath, onNavigate }) {
+  const active = currentPath === href;
+
+  return (
+    <a
+      href={href}
+      onClick={routeClick(onNavigate, href)}
+      className="mono nav-link"
+      style={{
+        fontSize: 10.5,
+        letterSpacing: ".16em",
+        textTransform: "uppercase",
+        color: active ? "var(--ink)" : "var(--muted)",
+      }}
+    >
+      {label}
+    </a>
+  );
+}
+
+export function Nav({ currentPath, onNavigate }) {
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
@@ -66,7 +152,7 @@ export function Nav() {
       }}
     >
       <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <a href="#top" className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <a href="/" onClick={routeClick(onNavigate, "/")} className="nav-brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <HeadshotFrame
             width={30}
             height={30}
@@ -79,13 +165,20 @@ export function Nav() {
           />
           <span className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase" }}>Joshua Severin</span>
         </a>
+
         <div style={{ display: "flex", gap: 30 }} className="nav-links">
-          {[["About", "about"], ["Work", "work"], ["Projects", "projects"], ["Writing", "writing"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, hash]) => (
-            <a key={hash} href={`#${hash}`} className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
-              {label}
-            </a>
-          ))}
+          <NavItem href="/" label="Home" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/overview" label="Overview" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/story" label="Story" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/experience" label="Experience" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/projects" label="Projects" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/writing" label="Writing" currentPath={currentPath} onNavigate={onNavigate} />
+          <NavItem href="/skills" label="Skills" currentPath={currentPath} onNavigate={onNavigate} />
+          <a href="#contact" className="mono nav-link" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+            Contact
+          </a>
         </div>
+
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span className="mono" style={{ fontSize: 10.5, color: "var(--muted)" }}>
             <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: "var(--accent-2)", marginRight: 6, animation: "pulse 2.2s ease infinite" }} />
@@ -93,6 +186,7 @@ export function Nav() {
           </span>
         </div>
       </div>
+
       <style>{`
         .nav-link,
         .nav-brand {
@@ -107,11 +201,15 @@ export function Nav() {
   );
 }
 
-export function Hero() {
+export function Hero({ onViewProjects }) {
   return (
-    <section id="top" style={{ paddingTop: 176, paddingBottom: 108, position: "relative" }}>
+    <section id="top" style={{ paddingTop: 176, paddingBottom: 82, position: "relative" }}>
       <div className="container" style={{ position: "relative", zIndex: 2 }}>
         <div className="hero-shell reveal" style={{ display: "grid", gridTemplateColumns: "220px minmax(0, 1.2fr) 320px", gap: 34, alignItems: "start", maxWidth: 1180, margin: "0 auto" }}>
+          <div className="hero-mobile-name mono" style={{ fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted)" }}>
+            Joshua Severin
+          </div>
+
           <div className="hero-portrait-col" style={{ display: "grid", gap: 18, alignContent: "start" }}>
             <HeadshotFrame
               width={198}
@@ -126,7 +224,7 @@ export function Hero() {
                 objectPosition: "center 18%",
               }}
             />
-            <div style={{ display: "grid", gap: 10, paddingTop: 2 }}>
+            <div className="hero-side-meta" style={{ display: "grid", gap: 10, paddingTop: 2 }}>
               <div style={{ width: 64, height: 1, background: "var(--line-2)" }} />
               <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
                 Berkeley, CA
@@ -138,7 +236,7 @@ export function Hero() {
           </div>
 
           <div className="hero-main-col" style={{ display: "grid", gap: 22, alignContent: "start" }}>
-            <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted)", textAlign: "left" }}>
+            <div className="hero-main-label mono" style={{ fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase", color: "var(--muted)", textAlign: "left" }}>
               Joshua Severin
             </div>
 
@@ -159,6 +257,15 @@ export function Hero() {
               I build models behind real decisions.
             </h1>
             <div style={{ width: 112, height: 2, background: "color-mix(in oklab, var(--accent) 58%, var(--line))" }} />
+
+            <div className="hero-mobile-meta">
+              <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+                Berkeley, CA
+              </div>
+              <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+                Available Summer '26
+              </div>
+            </div>
           </div>
 
           <div className="hero-copy-col" style={{ display: "grid", gap: 24, alignContent: "start", paddingTop: "min(9vw, 108px)" }}>
@@ -177,19 +284,24 @@ export function Hero() {
               I’m exploring full-time roles in business development and product, starting Summer 2026. Over the last year, I’ve modeled battery storage economics and VPP integration strategy for utilities at Intertrust Technologies. In parallel, I built a youth sports operating system from scratch.
             </p>
 
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start" }}>
-              <a href="#projects" className="btn">View projects <Arrow /></a>
+            <div className="hero-cta-row" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start" }}>
+              <button type="button" className="btn" onClick={onViewProjects}>View Projects <Arrow /></button>
               <a href="#contact" className="btn ghost">Get in touch</a>
             </div>
 
-            <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
+            <div className="hero-role-line mono" style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>
               Full-time roles, business development and product
             </div>
           </div>
         </div>
       </div>
+
       <style>{`
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.4); } }
+        .hero-mobile-name,
+        .hero-mobile-meta {
+          display: none;
+        }
         @media (max-width: 1080px) {
           .hero-shell {
             grid-template-columns: 180px minmax(0, 1fr) !important;
@@ -229,9 +341,60 @@ export function Hero() {
           }
         }
         @media (max-width: 640px) {
+          .hero-shell {
+            gap: 18px !important;
+          }
+          .hero-mobile-name {
+            display: block !important;
+            order: 1;
+            width: 100%;
+            text-align: center;
+          }
+          .hero-portrait-col {
+            order: 2 !important;
+            justify-items: center !important;
+            gap: 0 !important;
+          }
+          .hero-side-meta {
+            display: none !important;
+          }
+          .hero-main-col {
+            order: 3;
+            justify-items: center !important;
+            gap: 18px !important;
+          }
+          .hero-main-label {
+            display: none !important;
+          }
+          .hero-mobile-meta {
+            display: grid !important;
+            gap: 8px;
+            width: 100%;
+            justify-items: center;
+          }
+          .hero-copy-col {
+            order: 4;
+            width: 100%;
+            justify-items: center !important;
+            gap: 18px !important;
+          }
+          .hero-cta-row {
+            justify-content: center !important;
+          }
+          .hero-role-line {
+            text-align: center !important;
+          }
           .hero-portrait-col > span {
             width: 172px !important;
             height: 208px !important;
+          }
+          .hero-h1 {
+            text-align: center !important;
+          }
+          .hero-sub {
+            width: 100% !important;
+            max-width: min(100%, 34rem) !important;
+            text-align: center !important;
           }
         }
       `}</style>
@@ -276,49 +439,14 @@ export function SectionHeader({ num, tag, title, lede, titleStyle, ledeStyle, nu
   );
 }
 
-export function About() {
+function OverviewPanel() {
   return (
-    <section id="about" style={{ padding: "52px 0 104px" }}>
-      <div className="container">
-        <SectionHeader
-          num="I"
-          tag="The Story"
-          titleStyle={{ width: "100%", maxWidth: 840, fontSize: "clamp(32px, 5.5vw, 60px)" }}
-          title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>}
-        />
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }} className="about-grid reveal">
-          <div style={{ fontSize: 16.5, lineHeight: 1.72, color: "var(--ink-2)" }}>
-            <p style={{ marginTop: 0 }}>
-              I funded my move from Germany to the US by working production shifts at Festo, building components that end up inside BMW, Mercedes, and Audi engines. It wasn't glamorous, but it taught that real systems don't tolerate ambiguity. Things either work or they don't. That mindset has stayed with me.
-            </p>
-            <p>
-              At Berkeley, I studied Economics and started building quantitative models at Intertrust Technologies. I spent the last year doing analyst work. One of the biggest projects was for RWE, one of Europe's largest utilities, modeling battery storage returns across 27 US energy markets and putting findings in front of C-suite executives making nine-figure capital allocation decisions.
-            </p>
-            <p>
-              I launched a soccer tournament from scratch at Berkeley that generated 64.5% ROI in its first year with 230+ participants. I spent my free time in the Spring building PitchPoint, a platform for youth sports clubs that was inspired by my previous job as a full-time youth soccer coach, drowning in tools that didn't talk to each other.
-            </p>
-          </div>
-
-          <div>
-            <div style={{ border: "1px solid var(--line)", padding: 30, background: "color-mix(in oklab, var(--card) 86%, white)", boxShadow: "0 20px 40px rgba(20, 19, 17, 0.04)" }}>
-              <div className="eyebrow" style={{ marginBottom: 14 }}>Overview</div>
-              <Row k="Based" v="Berkeley, CA" />
-              <Row k="Origin" v="Saarland, Germany" />
-              <Row k="Education" v="UC Berkeley · B.A. Economics · May '26" />
-              <Row k="Coursework" v="Econometrics, Financial Economics, International Trade" />
-              <Row k="Languages" v="German (native), English (fluent/native), French, Spanish" />
-              <Row k="Current" v="Intertrust Technologies · PM + BD Intern" />
-              <Row k="Side" v="PitchPoint (Founder) · Cal Men's Club Soccer (Captain)" />
-              <Row k="Seeking" v="PM, Strategy, BD, Consulting (Summer 2026 start)" />
-              <Row k="Visa" v="1 year OPT + 2 year STEM OPT extension" />
-            </div>
-          </div>
-        </div>
-
-        <style>{`@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr !important; gap: 40px; } }`}</style>
-      </div>
-    </section>
+    <div style={{ border: "1px solid var(--line)", padding: 30, background: "color-mix(in oklab, var(--card) 86%, white)", boxShadow: "0 20px 40px rgba(20, 19, 17, 0.04)" }}>
+      <div className="eyebrow" style={{ marginBottom: 14 }}>Overview</div>
+      {OVERVIEW_ROWS.map(([k, v]) => (
+        <Row key={k} k={k} v={v} />
+      ))}
+    </div>
   );
 }
 
@@ -331,9 +459,144 @@ function Row({ k, v }) {
   );
 }
 
+function StoryColumn({ paragraphs }) {
+  return (
+    <div style={{ maxWidth: 760 }} className="reveal">
+      {paragraphs.map((paragraph, index) => (
+        <p key={index} style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", margin: index === 0 ? 0 : "0 0 20px" }}>
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function NavigationCard({ card, index, onNavigate }) {
+  return (
+    <a
+      href={card.path}
+      onClick={routeClick(onNavigate, card.path)}
+      style={{
+        border: "1px solid var(--line)",
+        background: "color-mix(in oklab, var(--card) 82%, white)",
+        padding: 28,
+        display: "grid",
+        gap: 14,
+        minHeight: 220,
+        transition: "transform .24s ease, border-color .24s ease, box-shadow .24s ease, background .24s ease",
+      }}
+      onMouseEnter={(event) => {
+        event.currentTarget.style.transform = "translateY(-2px)";
+        event.currentTarget.style.borderColor = "var(--accent)";
+        event.currentTarget.style.boxShadow = "0 24px 40px rgba(20, 19, 17, 0.07)";
+      }}
+      onMouseLeave={(event) => {
+        event.currentTarget.style.transform = "none";
+        event.currentTarget.style.borderColor = "var(--line)";
+        event.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div className="mono" style={{ fontSize: 10, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted-2)" }}>
+        0{index + 1}
+      </div>
+      <div className="serif" style={{ fontSize: 34, lineHeight: 1.02, letterSpacing: "-0.03em", color: "var(--ink)" }}>
+        {card.title}
+      </div>
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.68, color: "var(--ink-2)", maxWidth: 320 }}>
+        {card.preview}
+      </p>
+      <div className="mono" style={{ marginTop: "auto", fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--accent)" }}>
+        Open page ↗
+      </div>
+    </a>
+  );
+}
+
+export function HomeNavigationCards({ onNavigate }) {
+  return (
+    <section style={{ padding: "12px 0 96px" }}>
+      <div className="container">
+        <SectionHeader
+          num="I"
+          tag="Portfolio Map"
+          title={<>Browse the work <em style={{ color: "var(--accent)" }}>by thread</em>.</>}
+          lede="Each page isolates a different slice of the portfolio, so you can move directly to the story, roles, projects, published work, or underlying operating strengths."
+        />
+
+        <div className="route-card-grid reveal" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20 }}>
+          {HOME_CARDS.map((card, index) => (
+            <NavigationCard key={card.path} card={card} index={index} onNavigate={onNavigate} />
+          ))}
+        </div>
+
+        <style>{`
+          @media (max-width: 980px) {
+            .route-card-grid {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+          }
+          @media (max-width: 640px) {
+            .route-card-grid {
+              grid-template-columns: 1fr !important;
+            }
+          }
+        `}</style>
+      </div>
+    </section>
+  );
+}
+
+export function OverviewPage() {
+  return (
+    <section id="overview" style={{ padding: "148px 0 104px" }}>
+      <div className="container">
+        <SectionHeader
+          num="I"
+          tag="Overview"
+          title={<>A quick snapshot of the work, what I’m building, and where I’m headed.</>}
+          lede="Energy markets, product thinking, operating systems, and business development, all anchored in work that has to hold up in the real world."
+        />
+
+        <div style={{ display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: 64, alignItems: "start" }} className="overview-grid">
+          <div className="reveal" style={{ maxWidth: 720 }}>
+            <p style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", marginTop: 0 }}>
+              I study Economics at UC Berkeley and work at the intersection of energy markets, product, and operating systems. At Intertrust Technologies, I’ve spent the last year modeling battery-storage economics and VPP integration strategy for utility stakeholders making real capital-allocation decisions.
+            </p>
+            <p style={{ fontSize: 16.5, lineHeight: 1.78, color: "var(--ink-2)", marginBottom: 0 }}>
+              In parallel, I’m building PitchPoint, a youth sports operating system shaped by my experience as a coach, operator, and founder. I’m exploring full-time roles in business development and product starting Summer 2026, especially roles that sit close to systems, decisions, and execution.
+            </p>
+          </div>
+
+          <div className="reveal">
+            <OverviewPanel />
+          </div>
+        </div>
+
+        <style>{`@media (max-width: 920px) { .overview-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }`}</style>
+      </div>
+    </section>
+  );
+}
+
+export function StoryPage() {
+  return (
+    <section id="story" style={{ padding: "148px 0 104px" }}>
+      <div className="container">
+        <SectionHeader
+          num="I"
+          tag="The Story"
+          title={<>From a factory floor in Germany to Berkeley<div className="about-sub" style={{ fontSize: "clamp(18px, 3vw, 30px)", color: "var(--ink-2)", marginTop: 14, letterSpacing: 0, fontFamily: "inherit" }}>Turning complex systems into clear decisions.</div></>}
+          titleStyle={{ width: "100%", maxWidth: 880, fontSize: "clamp(32px, 5.5vw, 60px)" }}
+        />
+        <StoryColumn paragraphs={STORY_PARAGRAPHS} />
+      </div>
+    </section>
+  );
+}
+
 export function Experience() {
   return (
-    <section id="work" style={{ padding: "96px 0", background: "var(--paper-2)" }}>
+    <section id="experience" style={{ padding: "148px 0 96px", background: "var(--paper-2)" }}>
       <div className="container">
         <SectionHeader num="II" tag="Experience" title={<>What I <em style={{ color: "var(--accent)" }}>owned</em>, what I <em style={{ color: "var(--accent)" }}>built</em>, what changed because of it.</>} lede={"\n"} />
 
@@ -395,7 +658,7 @@ function ExpBlock({ label, body, emph }) {
 
 export function Writing() {
   return (
-    <section id="writing" style={{ padding: "92px 0", background: "var(--paper-2)" }}>
+    <section id="writing" style={{ padding: "148px 0 92px", background: "var(--paper-2)" }}>
       <div className="container">
         <SectionHeader
           num="IV"
@@ -463,7 +726,7 @@ export function Writing() {
 
 export function Skills() {
   return (
-    <section id="skills" style={{ padding: "80px 0" }}>
+    <section id="skills" style={{ padding: "148px 0 64px" }}>
       <div className="container">
         <SectionHeader num="V" tag="Skills" title={<span style={{ width: "100%", maxWidth: 1000, display: "inline-block" }}>The skill stack — <em style={{ color: "var(--accent)" }}>analytical</em>, <em style={{ color: "var(--accent)" }}>product</em>, <em style={{ color: "var(--accent)" }}>strategic</em>, <em style={{ color: "var(--accent)" }}>AI</em>.</span>} />
 
@@ -507,9 +770,9 @@ export function Skills() {
 
 export function Principles() {
   return (
-    <section id="thinking" style={{ padding: "80px 0", background: "var(--paper-2)" }}>
+    <section id="thinking" style={{ padding: "0 0 92px", background: "var(--paper-2)" }}>
       <div className="container">
-        <SectionHeader num="V" tag="How I Think" title={<>Six operating <em style={{ color: "var(--accent)" }}>principles</em>.</>} lede="Distilled from the projects above. These are the things I'll say in a meeting before I've thought about whether to say them." />
+        <SectionHeader num="VI" tag="How I Think" title={<>Six operating <em style={{ color: "var(--accent)" }}>principles</em>.</>} lede="Distilled from the projects above. These are the things I'll say in a meeting before I've thought about whether to say them." />
 
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}>
           {PRINCIPLES.map((principle) => (
@@ -528,14 +791,13 @@ export function Principles() {
 
 export function Contact() {
   return (
-    <section id="contact" style={{ padding: "120px 0 60px" }}>
+    <section id="contact" style={{ padding: "120px 0 72px" }}>
       <div className="container">
         <div className="rule">
-          <span className="num">VI</span>
           <span className="tag">Let's talk</span>
         </div>
 
-        <div className="reveal" style={{ padding: "40px 0 60px", borderTop: "1px solid var(--line)" }}>
+        <div className="reveal" style={{ padding: "40px 0 0", borderTop: "1px solid var(--line)" }}>
           <h2
             className="serif"
             style={{
@@ -563,17 +825,11 @@ export function Contact() {
               </div>
             </div>
             <div style={{ textAlign: "right" }}>
-              <div className="mono" style={{ fontSize: 11, color: "var(--muted)", letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 10, whiteSpace: "pre" }}>{"\n"}</div>
-              <div className="serif" style={{ fontSize: 48, whiteSpace: "pre" }}>{"\n"}</div>
               <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>Timezone: PST · Berkeley</div>
             </div>
           </div>
         </div>
 
-        <footer style={{ borderTop: "1px solid var(--line)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
-          <span className="mono" style={{ fontSize: 10, color: "var(--muted-2)", letterSpacing: ".14em", textTransform: "uppercase" }}>© 2026 Joshua Severin · Built in Berkeley</span>
-          <span className="mono" style={{ fontSize: 10, color: "var(--muted-2)", letterSpacing: ".14em", textTransform: "uppercase" }}>v.2026.04 · last shipped today</span>
-        </footer>
         <style>{`@media (max-width: 780px) { .contact-grid { grid-template-columns: 1fr !important; } .contact-grid > div:last-child { text-align: left !important; } }`}</style>
       </div>
     </section>
