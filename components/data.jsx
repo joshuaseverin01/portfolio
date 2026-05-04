@@ -88,20 +88,20 @@ export const PROJECTS = [
     id: "flexworks-dashboard",
     idx: "02",
     title: "Flexworks Arbitrage Intelligence Dashboard",
-    client: "Flexworks internal product · U.S. zonal market intelligence",
-    tagline: "A full-stack data application that turns Flexworks battery arbitrage simulation exports into zone-level market intelligence.",
+    client: "Flexworks internal product · PJM zone-level market intelligence",
+    tagline: "A local-first Streamlit analytics platform that transforms battery arbitrage simulation exports into investment-ready market intelligence.",
     problem:
-      "The original workflow required exporting Flexworks simulation data, cleaning CSVs by hand, mapping outputs to transmission zones, and assembling visualizations manually for strategy presentations. Useful analysis existed, but the process was slow, repetitive, and hard to reuse.",
+      "The original workflow required cleaning messy Flexworks simulation exports, reshaping wide-format monthly revenue tables, mapping results to ISO/RTO geographies, and assembling consulting-style summaries by hand. The insight was valuable, but the process took days and was prone to inconsistency.",
     approach: [
-      "Built a Streamlit analytics product that accepts Flexworks simulation exports, optional device-to-zone mapping files, and zones GeoJSON files through a repeatable upload workflow.",
-      "Processed time-series simulation data into decision-ready metrics including revenue per kW, cumulative revenue, and zonal performance differences across U.S. energy markets.",
-      "Added a custom matplotlib-based mapping engine with polygon rendering and polylabel, plus ranked bar charts, snapshot comparisons, animated time evolution, executive-style insight summaries, and export options for CSV, HTML, and GIF outputs.",
+      "Built a local-first Streamlit workflow that ingests Flexworks-style CSV exports, optional device-to-zone mapping files, and zone GeoJSON, with schema detection, validation, currency parsing, and wide-to-long reshaping.",
+      "Computed zone-level metrics including revenue per kW, annualized revenue, volatility, opportunity scores, risk labels, cumulative revenue over time, and ranked high-opportunity versus high-risk locations.",
+      "Designed a PJM-focused product layer with matplotlib polygon maps, ranked bars, snapshot and time-range views, multi-snapshot comparisons, animation playback, deterministic executive summaries, and export workflows for CSV, PNG, GIF, and markdown outputs.",
     ],
     output:
-      "Internal market-intelligence dashboard with bundled demo data, geospatial visualization, temporal animation, executive-ready summaries, and reusable exports for strategy and presentation workflows.",
+      "A modular analytics application with bundled demo data, guided Run Analysis workflow, geospatial PJM visualization, temporal market views, and executive-ready export tooling for strategy and investment evaluation.",
     impact:
-      "Automated a manual internship workflow into a repeatable analytics product that converts raw simulation outputs into decision-ready insights for market evaluation and strategy work.",
-    tags: ["Product Automation", "Market Intelligence", "Energy Analytics", "Python · Streamlit"],
+      "Automated a multi-day internship workflow into a repeatable market-intelligence product that converts raw arbitrage simulation outputs into decision-ready insights in minutes.",
+    tags: ["Python · Streamlit", "Pandas · Plotly", "GeoJSON · Matplotlib", "Energy Analytics"],
     accent: "accent",
   },
   {
@@ -187,6 +187,26 @@ export const PROJECTS = [
       "100% pilot adoption across 60+ athletes. Architecture ready for multi-tenant rollout across the $19B youth/collegiate sports market.",
     tags: ["Founder", "React · Supabase", "Multi-tenant", "GTM Wedge"],
     accent: "accent",
+  },
+  {
+    id: "inboxcast",
+    idx: "07",
+    title: "InboxCast — AI Inbox & Calendar Briefing Platform",
+    client: "Private beta MVP · Gmail + Google Calendar decision layer",
+    tagline: "Turning inbox and calendar overload into a voice-first morning operating system.",
+    problem:
+      "Inbox triage is still fragmented and visual. Busy users have to scan Gmail, check Calendar, separate urgent items from noise, and move into replies or planning across multiple tools, especially during mobile moments when reading and context-switching are slower.",
+    approach: [
+      "Built a mobile-first product layer above Gmail and Google Calendar, using Google OAuth, server-side context fetching, and structured AI briefing workflows instead of replacing the inbox itself.",
+      "Designed a repeatable morning workflow: fetch recent inbox and calendar context, generate a written briefing, optionally convert it into audio, then support follow-up reasoning, selected full-email reading, reply drafting, and Gmail draft creation.",
+      "Added product infrastructure around the core AI flow, including onboarding, morning presets, Outputs, browser-side PDF export, tap-to-talk voice commands, and private beta usage guardrails for trusted testing.",
+    ],
+    output:
+      "A deployed Next.js private-beta MVP that produces calm written and audio briefings from Gmail and Google Calendar context, then turns them into decision support, follow-up Q&A, and draft-ready action flows.",
+    impact:
+      "Converted a fragmented email and calendar workflow into a repeatable AI product that bridges quantitative reasoning, user experience, and action-oriented productivity automation.",
+    tags: ["AI Product", "Next.js · TypeScript", "Google OAuth", "Voice Workflow"],
+    accent: "signal",
   },
 ];
 
