@@ -193,6 +193,9 @@ export const PROJECTS = [
     idx: "07",
     title: "InboxCast — AI Inbox & Calendar Briefing Platform",
     client: "Private beta MVP · Gmail + Google Calendar decision layer",
+    demoNote: "Try the InboxCast demo here.",
+    demoLabel: "Launch Demo ↗",
+    demoHref: "https://inbox-cast.vercel.app/demo",
     tagline: "Turning inbox and calendar overload into a voice-first morning operating system.",
     problem:
       "Inbox triage is still fragmented and visual. Busy users have to scan Gmail, check Calendar, separate urgent items from noise, and move into replies or planning across multiple tools, especially during mobile moments when reading and context-switching are slower.",
