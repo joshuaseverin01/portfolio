@@ -89,19 +89,22 @@ export const PROJECTS = [
     idx: "02",
     title: "Flexworks Arbitrage Intelligence Dashboard",
     client: "Flexworks internal product · PJM zone-level market intelligence",
-    tagline: "A local-first Streamlit analytics platform that transforms battery arbitrage simulation exports into investment-ready market intelligence.",
+    demoNote: "Explore the Flexworks dashboard demo here.",
+    demoLabel: "Open Demo",
+    demoHref: "https://flexworksarbitragedemo.streamlit.app/",
+    tagline: "Built a full-stack Streamlit analytics product that converts Flexworks battery arbitrage simulation exports into zone-level market intelligence, geospatial visuals, temporal comparisons, executive summaries, exports, and AI-generated content outputs.",
     problem:
       "The original workflow required cleaning messy Flexworks simulation exports, reshaping wide-format monthly revenue tables, mapping results to ISO/RTO geographies, and assembling consulting-style summaries by hand. The insight was valuable, but the process took days and was prone to inconsistency.",
     approach: [
       "Built a local-first Streamlit workflow that ingests Flexworks-style CSV exports, optional device-to-zone mapping files, and zone GeoJSON, with schema detection, validation, currency parsing, and wide-to-long reshaping.",
       "Computed zone-level metrics including revenue per kW, annualized revenue, volatility, opportunity scores, risk labels, cumulative revenue over time, and ranked high-opportunity versus high-risk locations.",
-      "Designed a PJM-focused product layer with matplotlib polygon maps, ranked bars, snapshot and time-range views, multi-snapshot comparisons, animation playback, deterministic executive summaries, and export workflows for CSV, PNG, GIF, and markdown outputs.",
+      "Expanded the product with an AI content generation layer that turns simulation results into blog-style analysis and PowerPoint deck drafts tailored by purpose, audience, slide count, style, and tone, using a configured AI API key for communication-ready outputs.",
     ],
     output:
-      "A modular analytics application with bundled demo data, guided Run Analysis workflow, geospatial PJM visualization, temporal market views, and executive-ready export tooling for strategy and investment evaluation.",
+      "A modular analytics application with bundled demo data, guided Run Analysis workflow, geospatial PJM visualization, temporal market views, deterministic executive summaries, export tooling, and AI-generated content outputs for strategy, sales, investor, and public-facing communication.",
     impact:
-      "Automated a multi-day internship workflow into a repeatable market-intelligence product that converts raw arbitrage simulation outputs into decision-ready insights in minutes.",
-    tags: ["Python · Streamlit", "Pandas · Plotly", "GeoJSON · Matplotlib", "Energy Analytics"],
+      "Automated a multi-day internship workflow into a repeatable product automation and market-intelligence tool that converts raw arbitrage simulation outputs into decision-ready insights and communication outputs in minutes.",
+    tags: ["Python · Streamlit", "Pandas · Matplotlib", "GeoJSON", "AI Content Generation", "PowerPoint Drafting", "Market Intelligence"],
     accent: "accent",
   },
   {

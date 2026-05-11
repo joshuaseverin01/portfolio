@@ -7,8 +7,12 @@ import { ZonalBars } from "./viz.jsx";
 // Projects — case-study cards w/ expandable detail + ISO bars
 // ============================================================
 
+const PERSONAL_PROJECT_IDS = new Set(["pitchpoint-proj", "inboxcast"]);
+
 export default function Projects() {
   const [open, setOpen] = React.useState(null);
+  const professionalProjects = PROJECTS.filter((project) => !PERSONAL_PROJECT_IDS.has(project.id));
+  const personalProjects = PROJECTS.filter((project) => PERSONAL_PROJECT_IDS.has(project.id));
 
   return (
     <section
@@ -24,17 +28,37 @@ export default function Projects() {
           num="III"
           tag="Selected Projects"
           title={<>Seven projects from the last <em style={{ color: "var(--signal)" }}>18 months</em>.</>}
-          lede="Each reads the same way: the problem, the approach, the output, the thing that moved. Click any one to expand."
+          lede="Grouped into professional work and personal builds. Each reads the same way: the problem, the approach, the output, the thing that moved."
           wrapStyle={{ marginBottom: 72 }}
           titleStyle={{ maxWidth: 760 }}
         />
 
         <div className="reveal">
-          {PROJECTS.map((project, index) => (
-            <ProjectRow key={project.id} p={project} i={index} open={open === project.id} onToggle={() => setOpen(open === project.id ? null : project.id)} />
-          ))}
+          <ProjectGroup
+            title="Professional Work Projects"
+            description="Intertrust, Flexworks, energy-market modeling, and strategy work tied to client decisions and internal product automation."
+            projects={professionalProjects}
+            open={open}
+            setOpen={setOpen}
+          />
+
+          <ProjectGroup
+            title="Personal Projects"
+            description="Self-built products shaped by operating experience in sports, workflow design, and AI-enabled productivity."
+            projects={personalProjects}
+            open={open}
+            setOpen={setOpen}
+          />
         </div>
         <style>{`
+          .project-group + .project-group {
+            margin-top: 72px;
+          }
+          .project-group-label {
+            display: grid;
+            gap: 14px;
+            margin-bottom: 26px;
+          }
           .project-entry {
             transition: background .24s ease, border-color .24s ease;
           }
@@ -76,11 +100,38 @@ export default function Projects() {
   );
 }
 
-export function ProjectRow({ p, i, open, onToggle }) {
+function ProjectGroup({ title, description, projects, open, setOpen }) {
+  return (
+    <div className="project-group">
+      <div className="project-group-label">
+        <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--muted)" }}>
+          {title}
+        </div>
+        <p style={{ margin: 0, maxWidth: 720, fontSize: 15.5, lineHeight: 1.72, color: "var(--ink-2)" }}>
+          {description}
+        </p>
+      </div>
+
+      <div>
+        {projects.map((project, index) => (
+          <ProjectRow
+            key={project.id}
+            p={project}
+            isLast={index === projects.length - 1}
+            open={open === project.id}
+            onToggle={() => setOpen(open === project.id ? null : project.id)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ProjectRow({ p, isLast, open, onToggle }) {
   const ref = React.useRef(null);
 
   return (
-    <div className={`project-entry${open ? " is-open" : ""}`} style={{ borderTop: "1px solid var(--line)", borderBottom: i === PROJECTS.length - 1 ? "1px solid var(--line)" : "0" }}>
+    <div className={`project-entry${open ? " is-open" : ""}`} style={{ borderTop: "1px solid var(--line)", borderBottom: isLast ? "1px solid var(--line)" : "0" }}>
       <button
         onClick={onToggle}
         style={{
